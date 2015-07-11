@@ -18,10 +18,10 @@ getPackageManager();
 
 sub getPackageManager {
     if ($^O eq "linux") {
-        my @pm;
+        my @pm = ();
 
         do{
-            if (-x qx(type -p $_ | tr -d "\n")) {
+			if (-x qx(find /usr/bin -name  $_ | tr -d "\n")) {
                 push (@pm, $_);
                 last;
             }
@@ -68,7 +68,6 @@ sub menu {
     print "         \\/     \\/            \\/             \n";
 
 
-    print "Welcome to instart!\n\n";
     print "The following list present your packages that you can install";
     print " along with their configuration file if there is any available\n";
 
