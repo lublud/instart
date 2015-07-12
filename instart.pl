@@ -12,6 +12,7 @@
 
 use strict;
 use warnings;
+use File::Copy;
 
 main();
 getPackageManager();
@@ -21,17 +22,17 @@ sub getPackageManager {
         my @pm = ();
 
         do{
-			if (-x qx(find /usr/bin -name  $_ | tr -d "\n")) {
+            if (-x qx(find /usr/bin -name  $_ | tr -d "\n")) {
                 push (@pm, $_);
                 last;
             }
         } for qw/apt-get pacman/;
 
-		if (-1 == $#pm) {
-			print "System not supported!\nExit program...\n";
-			exit;
-		}
-        
+        if (-1 == $#pm) {
+            print "System not supported!\nExit program...\n";
+            exit;
+        }
+
         if ($pm[0] eq "apt-get") {
             push (@pm, "install");
             push (@pm, "update");
@@ -41,7 +42,7 @@ sub getPackageManager {
             push (@pm, "-S");
             push (@pm, "-Syu");
         }
-        
+
         return @pm;
     }
 } # getPackageManager
@@ -51,7 +52,7 @@ sub readConfigFile {
     my %array;
 
     open (CONFIGFILE, "<instart.config")
-		or die "Config file missing!\nExit program...\n";
+        or die "Config file missing!\nExit program...\n";
 
     while (my $line = <CONFIGFILE>) {
         if ($line =~ m/[\w-]*:/) {
@@ -69,7 +70,7 @@ sub readConfigFile {
                 next;
             }
 
-            #else yes
+#else yes
             $line = <CONFIGFILE>;
             if ($line =~ m/path/) {
                 $line =~ m/(?<=\=)(.*?)(?=\s|\n)/;
@@ -114,9 +115,9 @@ sub menu {
     print "\nChoice (quit to quit): ";
     my $in = "";
     chomp ($in = <STDIN>);
-	if ("quit" eq $in) {
-		exit;
-	}
+    if ("quit" eq $in) {
+        exit;
+    }
 
     while (! defined $array{$in}) {
         print "This option is not available...\nChoice: ";
@@ -126,13 +127,12 @@ sub menu {
         }
     }
 
-    return $in;
+    return @{$array{$in}};
 
 } # menu
 
 
 sub main {
-
     my %array = readConfigFile();
     my @pm = getPackageManager();
 
@@ -143,24 +143,34 @@ sub main {
     print " |__|___|  /____  > |__| (____  /__|   |__|  \n";
     print "         \\/     \\/            \\/             \n";
 
-	while (1) {
-		print "\n";
-		my $choice = menu(%array);
+    print "\nIn order to use this program, you have to be a sudoer.\n\n";
 
-		print "About to execute \"sudo $pm[0] $pm[1] $choice\" ...\n";
-		my $rep = "no";
-		while (1) {
-			print "Do you want to continue ";
-			print "(your password might be requested)? (yes/no) ";
-			chomp ($rep = <STDIN>);
-			if ("yes" eq $rep) {
-				qx (sudo $pm[0] $pm[1] $choice);
-				last;
-			}
-			elsif ("no" eq $rep) {
-				last;
-			}
-		}
-	}
+    while (1) {
+        print "\n";
+        my @choice = menu(%array);
+
+        print "About to execute \"sudo $pm[0] $pm[1] $choice[0]\" ...\n";
+        my $rep = "no";
+        while (1) {
+            print "Do you want to continue ";
+            print "(your password might be requested)? (yes/no) ";
+            chomp ($rep = <STDIN>);
+            if ("yes" eq $rep) {
+                if (! system ("sudo $pm[0] $pm[1] $choice[0]")) {
+                    if ( 1 < $#choice) {
+                        $choice[2] =~ s/~/$ENV{HOME}/;
+                        print "\nCopy $choice[1] to $choice[2]...\n";
+                        copy($choice[1], $choice[2])
+                            or die "Copy failed: $!";
+                    }
+                }
+
+                last;
+            }
+            elsif ("no" eq $rep) {
+                last;
+            }
+        }
+    }
 
 } # main

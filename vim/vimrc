@@ -1,0 +1,32 @@
+if !empty(system("setxkbmap -print|grep bepo"))
+    source ~/.vimrc.bepo
+endif
+
+" Global settings
+:set nocompatible
+:set hlsearch
+:set shiftwidth=4
+:set background=dark
+:set cursorline
+:set expandtab
+:set tabstop=4
+
+execute pathogen#infect()
+
+:syntax on
+
+" Show line number
+:set number
+:highlight LineNr term=bold ctermfg=darkgray guifg=darkgray
+
+" Special configuration for development
+" Show when a line ecxeeds 80 chars
+:filetype on
+:autocmd FileType .c,.cpp,.cxx,.h set cindent|set cin|set softtabstop=4|set expandtab
+" :au BufWinEnter * let w:m1=matchadd('ErrorMsg', '\%>73v.\+', -1)
+:set smartindent
+
+:autocmd FileType make setlocal noexpandtab
+
+" Special highlighting for Doxygen
+:let g:load_doxygen_syntax=1
