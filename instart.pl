@@ -6,7 +6,7 @@
 #
 # author: lublud
 #
-# date: 11/07/2015
+# date: 13/07/2015
 #
 ##
 
@@ -15,7 +15,6 @@ use warnings;
 use File::Copy;
 
 main();
-getPackageManager();
 
 sub getPackageManager {
     if ($^O eq "linux") {
@@ -70,7 +69,6 @@ sub readConfigFile {
                 next;
             }
 
-#else yes
             $line = <CONFIGFILE>;
             if ($line =~ m/path/) {
                 $line =~ m/(?<=\=)(.*?)(?=\s|\n)/;
