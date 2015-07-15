@@ -6,7 +6,7 @@
 #
 # author: lublud
 #
-# date: 13/07/2015
+# date: 15/07/2015
 #
 # brief: script installing and setting package for UNIX systems
 #
@@ -127,7 +127,7 @@ sub main {
                         $defaultPath =~ s/~/$ENV{HOME}/;
 
                         print "\nCopy $configFile to $defaultPath...";
-                        copy ($configFile, $defaultPath);
+                        copy ($configFile, $defaultPath) or die "Copy failed: $!";
                     }
                     print "\n";
                 }
