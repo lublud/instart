@@ -1,0 +1,23 @@
+##
+#
+# file: list_package.yml
+#
+# author: lublud
+#
+# date: 15/07/2015
+#
+# brief: list of package to be installed
+#
+##
+
+---
+package:
+    vim:
+        nbConfigFile: 2
+        configFile0: ./vim/vimrc
+        defaultPath0: ~/.vimrc
+        configFile1: ./vim/vimrc.bepo
+        defaultPath1: ~/.vimrc.bepo
+
+    lynx:
+        nbConfigFile: 0

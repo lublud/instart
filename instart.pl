@@ -8,10 +8,14 @@
 #
 # date: 13/07/2015
 #
+# brief: script installing and setting package for UNIX systems
+#
 ##
 
 use strict;
 use warnings;
+
+use YAML::XS qw(LoadFile);
 use File::Copy;
 
 main();
@@ -48,66 +52,21 @@ sub getPackageManager {
 
 
 sub readConfigFile {
-    my %array;
+    my $config = LoadFile ('list_package.yml');
 
-    open (CONFIGFILE, "<instart.config")
-        or die "Config file missing!\nExit program...\n";
-
-    while (my $line = <CONFIGFILE>) {
-        if ($line =~ m/[\w-]*:/) {
-            my @elem = split (/:\n/, $line);
-            my $key = $elem[0];
-
-            $line = <CONFIGFILE>;
-            if ($line !~ m/config/) {
-                push (@{$array{$key}}, @elem);
-                next;
-            }
-            $line =~ m/(?<=\=)(.*?)(?=\s|\n)/;
-            if ("no" eq $1) {
-                push (@{$array{$key}}, @elem);
-                next;
-            }
-
-            $line = <CONFIGFILE>;
-            if ($line =~ m/path/) {
-                $line =~ m/(?<=\=)(.*?)(?=\s|\n)/;
-                push (@elem, $1);
-            }
-            else {
-                print "Error detected in config file.\nExit program...\n";
-                exit;
-            }
-
-            $line = <CONFIGFILE>;
-            if ($line =~ m/default/) {
-                $line =~ m/(?<=\=)(.*?)(?=\s|\n)/;
-                push (@elem, $1);
-            }
-            else {
-                print "Error detected in config file.\nExit program...\n";
-                exit;
-            }
-            push (@{$array{$key}}, @elem);
-        }
-    }
-
-    close (CONFIGFILE);
-
-    return %array;
+    return $config;
 
 } # readConfigFile
 
+
 sub menu {
-    my %array = @_;
+    my $config = $_[0];
 
     print "The following list present your packages that you can install ";
     print "along with their configuration file if there is any available\n";
 
-
-    my $key;
-    foreach $key (sort keys %array) {
-        print "\t- $key\n";
+    for (keys %{$config->{package}}) {
+        print "\t - $_\n";
     }
 
     print "\nChoice (quit to quit): ";
@@ -117,7 +76,7 @@ sub menu {
         exit;
     }
 
-    while (! defined $array{$in}) {
+    while (! exists $config->{package}->{$in}) {
         print "This option is not available...\nChoice: ";
         chomp ($in = <STDIN>);
         if ("quit" eq $in) {
@@ -125,13 +84,13 @@ sub menu {
         }
     }
 
-    return @{$array{$in}};
+    return $in;
 
 } # menu
 
 
 sub main {
-    my %array = readConfigFile();
+    my $config = readConfigFile();
     my @pm = getPackageManager();
 
     print " .__                 __                 __   \n";
@@ -145,22 +104,32 @@ sub main {
 
     while (1) {
         print "\n";
-        my @choice = menu(%array);
+        my $choice = menu($config);
 
-        print "About to execute \"sudo $pm[0] $pm[1] $choice[0]\" ...\n";
+        print "About to execute \"sudo $pm[0] $pm[1] $choice\" ...\n";
         my $rep = "no";
         while (1) {
             print "Do you want to continue ";
             print "(your password might be requested)? (yes/no) ";
             chomp ($rep = <STDIN>);
             if ("yes" eq $rep) {
-                if (! system ("sudo $pm[0] $pm[1] $choice[0]")) {
-                    if ( 1 < $#choice) {
-                        $choice[2] =~ s/~/$ENV{HOME}/;
-                        print "\nCopy $choice[1] to $choice[2]...\n";
-                        copy($choice[1], $choice[2])
-                            or die "Copy failed: $!";
+                if (! system ("sudo $pm[0] $pm[1] $choice")) {
+                    for (my $i = 0;
+                            $i < $config->{package}->{$choice}->{nbConfigFile};
+                            ++$i) {
+                        my $conf = "configFile" . $i;
+                        my $path = "defaultPath" . $i;
+
+                        my $configFile = $config->{package}->{$choice}->{$conf};
+                        my $defaultPath = $config->{package}->{$choice}->{$path};
+
+                        $configFile =~ s/~/$ENV{HOME}/;
+                        $defaultPath =~ s/~/$ENV{HOME}/;
+
+                        print "\nCopy $configFile to $defaultPath...";
+                        copy ($configFile, $defaultPath);
                     }
+                    print "\n";
                 }
 
                 last;
