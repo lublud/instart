@@ -62,6 +62,7 @@ sub readConfigFile {
 sub menu {
     my $config = $_[0];
 
+    print "\n";
     print "The following list present your packages that you can install ";
     print "along with their configuration file if there is any available\n";
 
@@ -100,7 +101,9 @@ sub main {
     print " |__|___|  /____  > |__| (____  /__|   |__|  \n";
     print "         \\/     \\/            \\/             \n";
 
-    print "\nIn order to use this program, you have to be a sudoer.\n\n";
+    print "\n###################################################################\n";
+    print "# Warning: In order to use this program, you have to be a sudoer. #\n";
+    print "###################################################################";
 
     while (1) {
         print "\n";
@@ -126,10 +129,16 @@ sub main {
                         $configFile =~ s/~/$ENV{HOME}/;
                         $defaultPath =~ s/~/$ENV{HOME}/;
 
-                        print "\nCopy $configFile to $defaultPath...";
+                        print "\nDestination for $configFile ";
+                        print "(default=$defaultPath): ";
+                        my $tmp = <STDIN>;
+                        chomp($tmp);
+                        if ("" ne $tmp) {
+                            $defaultPath = $tmp;
+                        }
+                        print "Copy \`$configFile\` to \`$defaultPath\`...";
                         copy ($configFile, $defaultPath) or die "Copy failed: $!";
                     }
-                    print "\n";
                 }
 
                 last;
