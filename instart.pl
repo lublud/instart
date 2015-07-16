@@ -59,6 +59,52 @@ sub readConfigFile {
 } # readConfigFile
 
 
+sub execute {
+    my @pm = getPackageManager();
+    my $config = $_[0];
+    my $choice = $_[1];
+
+    print "About to execute \"sudo $pm[0] $pm[1] $choice\" ...\n";
+    my $rep = "no";
+    while (1) {
+        print "Do you want to continue ";
+        print "(your password might be requested)? (yes/no) ";
+        chomp ($rep = <STDIN>);
+        if ("yes" eq $rep) {
+            if (! system ("sudo $pm[0] $pm[1] $choice")) {
+                for (my $i = 0;
+                        $i < $config->{package}->{$choice}->{nbConfigFile};
+                        ++$i) {
+                    my $conf = "configFile" . $i;
+                    my $path = "defaultPath" . $i;
+
+                    my $configFile = $config->{package}->{$choice}->{$conf};
+                    my $defaultPath = $config->{package}->{$choice}->{$path};
+
+                    $configFile =~ s/~/$ENV{HOME}/;
+                    $defaultPath =~ s/~/$ENV{HOME}/;
+
+                    print "\nDestination for $configFile ";
+                    print "(default=$defaultPath): ";
+                    my $tmp = <STDIN>;
+                    chomp($tmp);
+                    if ("" ne $tmp) {
+                        $defaultPath = $tmp;
+                    }
+                    print "Copy \`$configFile\` to \`$defaultPath\`...";
+                    copy ($configFile, $defaultPath) or die "Copy failed: $!";
+                }
+            }
+
+            last;
+        }
+        elsif ("no" eq $rep) {
+            last;
+        }
+    }
+} # execute
+
+
 sub menu {
     my $config = $_[0];
 
@@ -92,7 +138,6 @@ sub menu {
 
 sub main {
     my $config = readConfigFile();
-    my @pm = getPackageManager();
 
     print " .__                 __                 __   \n";
     print " |__| ____   _______/  |______ ________/  |_ \n";
@@ -108,45 +153,7 @@ sub main {
     while (1) {
         print "\n";
         my $choice = menu($config);
-
-        print "About to execute \"sudo $pm[0] $pm[1] $choice\" ...\n";
-        my $rep = "no";
-        while (1) {
-            print "Do you want to continue ";
-            print "(your password might be requested)? (yes/no) ";
-            chomp ($rep = <STDIN>);
-            if ("yes" eq $rep) {
-                if (! system ("sudo $pm[0] $pm[1] $choice")) {
-                    for (my $i = 0;
-                            $i < $config->{package}->{$choice}->{nbConfigFile};
-                            ++$i) {
-                        my $conf = "configFile" . $i;
-                        my $path = "defaultPath" . $i;
-
-                        my $configFile = $config->{package}->{$choice}->{$conf};
-                        my $defaultPath = $config->{package}->{$choice}->{$path};
-
-                        $configFile =~ s/~/$ENV{HOME}/;
-                        $defaultPath =~ s/~/$ENV{HOME}/;
-
-                        print "\nDestination for $configFile ";
-                        print "(default=$defaultPath): ";
-                        my $tmp = <STDIN>;
-                        chomp($tmp);
-                        if ("" ne $tmp) {
-                            $defaultPath = $tmp;
-                        }
-                        print "Copy \`$configFile\` to \`$defaultPath\`...";
-                        copy ($configFile, $defaultPath) or die "Copy failed: $!";
-                    }
-                }
-
-                last;
-            }
-            elsif ("no" eq $rep) {
-                last;
-            }
-        }
+        execute ($config, $choice);
     }
 
 } # main
