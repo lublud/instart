@@ -12,6 +12,21 @@
 
 ---
 package:
+    ddd:
+        nbConfigFile: 0
+
+    gcc:
+        nbConfigFile: 0
+
+    gdb:
+        nbConfigFile: 0
+
+    lynx:
+        nbConfigFile: 0
+
+    make:
+        nbConfigFile: 0
+
     vim:
         nbConfigFile: 2
         configFile0: ./vim/vimrc
@@ -19,5 +34,5 @@ package:
         configFile1: ./vim/vimrc.bepo
         defaultPath1: ~/.vimrc.bepo
 
-    lynx:
+    zathura:
         nbConfigFile: 0

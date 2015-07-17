@@ -35,5 +35,10 @@ Only two package manager can be used as of today, but more are to come:
 The following is the list of available packages. This list can (will) grow by
 adding packages in `list_package.yml`:
 
-    - vim
+    - ddd
+    - gcc
+    - gdb
     - lynx
+    - make
+    - vim
+    - zathura
