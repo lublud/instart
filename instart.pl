@@ -58,13 +58,27 @@ sub readConfigFile {
 
 } # readConfigFile
 
+sub update {
+    my @pm = @_;
 
-sub execute {
-    my @pm = getPackageManager();
+    if ("atp-get" eq $pm[1]) {
+        print "Executing \`sudo $pm[0] $pm[2] && $pm[0] $pm[3]\` ...\n";
+        system ("sudo $pm[0] $pm[2] && $pm[0] $pm[3]");
+    }
+    else {
+        print "Executing \`sudo $pm[0] $pm[2]\` ...\n";
+        system ("sudo $pm[0] $pm[2]");
+    }
+} # update
+
+
+sub installPackage {
     my $config = $_[0];
-    my $choice = $_[1];
+    my @pm = splice (@_, 1, $#_);
 
-    print "About to execute \"sudo $pm[0] $pm[1] $choice\" ...\n";
+    my $choice = menu($config);
+
+    print "About to execute \`sudo $pm[0] $pm[1] $choice\` ...\n";
     my $rep = "no";
     while (1) {
         print "Do you want to continue ";
@@ -102,7 +116,7 @@ sub execute {
             last;
         }
     }
-} # execute
+} # installPackage
 
 
 sub menu {
@@ -120,6 +134,7 @@ sub menu {
     my $in = "";
     chomp ($in = <STDIN>);
     if ("quit" eq $in) {
+        print "Thank you for using instart!\n\n";
         exit;
     }
 
@@ -127,6 +142,7 @@ sub menu {
         print "This option is not available...\nChoice: ";
         chomp ($in = <STDIN>);
         if ("quit" eq $in) {
+            print "Thank you for using instart!\n\n";
             exit;
         }
     }
@@ -138,6 +154,7 @@ sub menu {
 
 sub main {
     my $config = readConfigFile();
+    my @pm = getPackageManager();
 
     print " .__                 __                 __   \n";
     print " |__| ____   _______/  |______ ________/  |_ \n";
@@ -152,8 +169,27 @@ sub main {
 
     while (1) {
         print "\n";
-        my $choice = menu($config);
-        execute ($config, $choice);
+        print "Option available:\n";
+        print "\t1 - Update && Upgrade\n\t2 - Install package\n\t3 - Quit\n\n";
+        print "Choice: ";
+
+        my $choice = <STDIN>;
+        chomp ($choice);
+        while ($choice ne "1" && $choice ne "2" && $choice ne "3") {
+            print "Option not available...Choose an existing option: ";
+            chomp ($choice = <STDIN>);
+        }
+
+        if ("1" eq $choice) {
+            update (@pm);
+        }
+        elsif ("2" eq $choice) {
+            installPackage($config, @pm);
+        }
+        else {
+            print "Thank you for using instart!\n\n";
+            exit;
+        }
     }
 
 } # main
