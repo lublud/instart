@@ -61,9 +61,9 @@ sub readConfigFile {
 sub update {
     my @pm = @_;
 
-    if ("atp-get" eq $pm[1]) {
+    if ("apt-get" eq $pm[0]) {
         print "Executing \`sudo $pm[0] $pm[2] && $pm[0] $pm[3]\` ...\n";
-        system ("sudo $pm[0] $pm[2] && $pm[0] $pm[3]");
+        system ("sudo $pm[0] $pm[2] && sudo $pm[0] $pm[3]");
     }
     else {
         print "Executing \`sudo $pm[0] $pm[2]\` ...\n";
