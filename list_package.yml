@@ -10,22 +10,45 @@
 #
 ##
 
+# requires can take none as value or a list of package separated by commas
+
 ---
 package:
+    cmus:
+        nbConfigFile: 0
+        requires: none
+
     ddd:
         nbConfigFile: 0
+        requires: none
 
     gcc:
         nbConfigFile: 0
+        requires: none
 
     gdb:
         nbConfigFile: 0
+        requires: none
+
+    i3:
+        nbConfigFile: 2
+        configFile0: ./i3/config
+        defaultPath0: ~/.i3/config
+        configFile1: ./i3/i3status.conf
+        defaultPath1: ~/.i3status.conf
+        requires: xorg
 
     lynx:
         nbConfigFile: 0
+        requires: none
 
     make:
         nbConfigFile: 0
+        requires: none
+
+    terminator:
+        nbConfigFile: 0
+        requires: none
 
     vim:
         nbConfigFile: 2
@@ -34,5 +57,10 @@ package:
         configFile1: ./vim/vimrc.bepo
         defaultPath1: ~/.vimrc.bepo
 
+    xorg:
+        nbConfigFile: 0
+        requires: none
+
     zathura:
         nbConfigFile: 0
+        requires: none

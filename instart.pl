@@ -78,44 +78,43 @@ sub installPackage {
 
     my $choice = menu($config);
 
-    print "About to execute \`sudo $pm[0] $pm[1] $choice\` ...\n";
-    my $rep = "no";
-    while (1) {
-        print "Do you want to continue ";
-        print "(your password might be requested)? (yes/no) ";
-        chomp ($rep = <STDIN>);
-        if ("yes" eq $rep) {
-            if (! system ("sudo $pm[0] $pm[1] $choice")) {
-                for (my $i = 0;
-                        $i < $config->{package}->{$choice}->{nbConfigFile};
-                        ++$i) {
-                    my $conf = "configFile" . $i;
-                    my $path = "defaultPath" . $i;
-
-                    my $configFile = $config->{package}->{$choice}->{$conf};
-                    my $defaultPath = $config->{package}->{$choice}->{$path};
-
-                    $configFile =~ s/~/$ENV{HOME}/;
-                    $defaultPath =~ s/~/$ENV{HOME}/;
-
-                    print "\nDestination for $configFile ";
-                    print "(default=$defaultPath): ";
-                    my $tmp = <STDIN>;
-                    chomp($tmp);
-                    if ("" ne $tmp) {
-                        $defaultPath = $tmp;
-                    }
-                    print "Copy \`$configFile\` to \`$defaultPath\`...";
-                    copy ($configFile, $defaultPath) or die "Copy failed: $!";
-                }
-            }
-
-            last;
-        }
-        elsif ("no" eq $rep) {
-            last;
+    my $req = $config->{package}->{$choice}->{requires};
+    if ($req  ne "none") {
+        print "In order to install $choice, the following package(s) need(s) ";
+        print "to be installed: $req\n";
+        my @requires = split (/, /, $req);
+        foreach my $package (@requires) {
+            print "About to execute \`sudo $pm[0] $pm[1] $package\` ...\n";
+            system ("sudo $pm[0] $pm[1] $package");
         }
     }
+    print "About to execute \`sudo $pm[0] $pm[1] $choice\` ...\n";
+    my $rep = "no";
+    if (! system ("sudo $pm[0] $pm[1] $choice")) {
+        for (my $i = 0;
+                $i < $config->{package}->{$choice}->{nbConfigFile};
+                ++$i) {
+            my $conf = "configFile" . $i;
+            my $path = "defaultPath" . $i;
+
+            my $configFile = $config->{package}->{$choice}->{$conf};
+            my $defaultPath = $config->{package}->{$choice}->{$path};
+
+            $configFile =~ s/~/$ENV{HOME}/;
+            $defaultPath =~ s/~/$ENV{HOME}/;
+
+            print "\nDestination for $configFile ";
+            print "(default=$defaultPath): ";
+            my $tmp = <STDIN>;
+            chomp($tmp);
+            if ("" ne $tmp) {
+                $defaultPath = $tmp;
+            }
+            print "Copy \`$configFile\` to \`$defaultPath\`...";
+            copy ($configFile, $defaultPath) or die "Copy failed: $!";
+        }
+    }
+
 } # installPackage
 
 
