@@ -85,11 +85,13 @@ sub installPackage {
         my @requires = split (/, /, $req);
         foreach my $package (@requires) {
             print "About to execute \`sudo $pm[0] $pm[1] $package\` ...\n";
+            sleep (1);
             system ("sudo $pm[0] $pm[1] $package");
         }
     }
-    print "About to execute \`sudo $pm[0] $pm[1] $choice\` ...\n";
-    my $rep = "no";
+
+    print "\nAbout to execute \`sudo $pm[0] $pm[1] $choice\` ...\n";
+    sleep (1);
     if (! system ("sudo $pm[0] $pm[1] $choice")) {
         for (my $i = 0;
                 $i < $config->{package}->{$choice}->{nbConfigFile};
@@ -110,7 +112,17 @@ sub installPackage {
             if ("" ne $tmp) {
                 $defaultPath = $tmp;
             }
-            print "Copy \`$configFile\` to \`$defaultPath\`...";
+            print "Copy \`$configFile\` to \`$defaultPath\`...\n";
+            my @path = split (/\//, $defaultPath);
+            my $subpath = "";
+            for my $i (0 .. $#path - 1) {
+                $subpath = $subpath . $path[$i] . "/";
+                if (! -d $subpath) {
+                    print "Creating \`$subpath\' ...\n";
+                    mkdir $subpath;
+                }
+            }
+
             copy ($configFile, $defaultPath) or die "Copy failed: $!";
         }
     }
