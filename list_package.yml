@@ -66,6 +66,9 @@ package:
         defaultPath0: ~/.xinitrc
         addLine0: setxkbmap fr, exec i3
         requires: none
+        warning: >
+            You might need to modify /etc/X11/Xwrapper.config
+            to start a new X session
 
     zathura:
         nbConfigFile: 0

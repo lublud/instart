@@ -72,35 +72,23 @@ sub update {
 } # update
 
 
-sub installPackage {
+sub execute {
     my $config = $_[0];
-    my @pm = splice (@_, 1, $#_);
+    my $package = $_[1];
+    my @pm = splice (@_, 2, $#_);
 
-    my $choice = menu($config);
-
-    my $req = $config->{package}->{$choice}->{requires};
-    if ($req  ne "none") {
-        print "In order to install $choice, the following package(s) need(s) ";
-        print "to be installed: $req\n";
-        my @requires = split (/, /, $req);
-        foreach my $package (@requires) {
-            print "About to execute \`sudo $pm[0] $pm[1] $package\` ...\n";
-            sleep (1);
-            system ("sudo $pm[0] $pm[1] $package");
-        }
-    }
-
-    print "\nAbout to execute \`sudo $pm[0] $pm[1] $choice\` ...\n";
+    print "\nAbout to execute \`sudo $pm[0] $pm[1] $package\` ...\n";
     sleep (1);
-    if (! system ("sudo $pm[0] $pm[1] $choice")) {
+    #if (! system ("sudo $pm[0] $pm[1] $package")) {
+        if (1){
         for (my $i = 0;
-                $i < $config->{package}->{$choice}->{nbConfigFile};
+                $i < $config->{package}->{$package}->{nbConfigFile};
                 ++$i) {
             my $conf = "configFile" . $i;
             my $path = "defaultPath" . $i;
 
-            my $configFile = $config->{package}->{$choice}->{$conf};
-            my $defaultPath = $config->{package}->{$choice}->{$path};
+            my $configFile = $config->{package}->{$package}->{$conf};
+            my $defaultPath = $config->{package}->{$package}->{$path};
 
             $configFile =~ s/~/$ENV{HOME}/;
             $defaultPath =~ s/~/$ENV{HOME}/;
@@ -128,18 +116,42 @@ sub installPackage {
 
             # Append to file possible new lines
             my $add = "addLine" . $i;
-            if (exists $config->{package}->{$choice}->{$add}) {
+            if (exists $config->{package}->{$package}->{$add}) {
                 open my $out, '>>', "$defaultPath" or die "Write failed: $!";
 
                 my @addLine = split (/, /,
-                        $config->{package}->{$choice}->{$add});
+                        $config->{package}->{$package}->{$add});
                 print $out "\n";
                 foreach my $line (@addLine) {
                     print $out "$line\n";
                 }
             }
         }
+        if (exists $config->{package}->{$package}->{warning}) {
+            print "Warning: ";
+            print "$config->{package}->{$package}->{warning}";
+        }
     }
+} # execute
+
+
+sub installPackage {
+    my $config = $_[0];
+    my @pm = splice (@_, 1, $#_);
+
+    my $choice = menu($config);
+
+    my $req = $config->{package}->{$choice}->{requires};
+    if ($req  ne "none") {
+        print "In order to install $choice, the following package(s) need(s) ";
+        print "to be installed: $req\n";
+        my @requires = split (/, /, $req);
+        foreach my $package (@requires) {
+            execute ($config, $package, @pm);
+        }
+    }
+
+    execute ($config, $choice, @pm);
 
 } # installPackage
 
