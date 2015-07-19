@@ -14,6 +14,9 @@
 
 ---
 package:
+    axel:
+        nbConfigFile: 0
+        requires: none
     cmus:
         nbConfigFile: 0
         requires: none
@@ -58,7 +61,10 @@ package:
         defaultPath1: ~/.vimrc.bepo
 
     xorg:
-        nbConfigFile: 0
+        nbConfigFile: 1
+        configFile0: /etc/X11/xinit/xinitrc
+        defaultPath0: xinitrc
+        addLine0: setxkbmap fr, exec i3
         requires: none
 
     zathura:

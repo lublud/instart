@@ -112,18 +112,32 @@ sub installPackage {
             if ("" ne $tmp) {
                 $defaultPath = $tmp;
             }
-            print "Copy \`$configFile\` to \`$defaultPath\`...\n";
+
             my @path = split (/\//, $defaultPath);
             my $subpath = "";
-            for my $i (0 .. $#path - 1) {
-                $subpath = $subpath . $path[$i] . "/";
+            for my $j (0 .. $#path - 1) {
+                $subpath = $subpath . $path[$j] . "/";
                 if (! -d $subpath) {
                     print "Creating \`$subpath\' ...\n";
                     mkdir $subpath;
                 }
             }
 
+            print "Copy \`$configFile\` to \`$defaultPath\`...\n";
             copy ($configFile, $defaultPath) or die "Copy failed: $!";
+
+            # Append to file possible new lines
+            my $add = "addLine" . $i;
+            if (exists $config->{package}->{$choice}->{$add}) {
+                open my $out, '>>', "$defaultPath" or die "Write failed: $!";
+
+                my @addLine = split (/, /,
+                        $config->{package}->{$choice}->{$add});
+                print $out "\n";
+                foreach my $line (@addLine) {
+                    print $out "$line\n";
+                }
+            }
         }
     }
 
@@ -187,7 +201,7 @@ sub main {
         my $choice = <STDIN>;
         chomp ($choice);
         while ($choice ne "1" && $choice ne "2" && $choice ne "3") {
-            print "Option not available...Choose an existing option: ";
+            print "Option not available...\nChoose an existing option: ";
             chomp ($choice = <STDIN>);
         }
 
