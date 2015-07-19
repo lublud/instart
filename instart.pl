@@ -79,8 +79,7 @@ sub execute {
 
     print "\nAbout to execute \`sudo $pm[0] $pm[1] $package\` ...\n";
     sleep (1);
-    #if (! system ("sudo $pm[0] $pm[1] $package")) {
-        if (1){
+    if (! system ("sudo $pm[0] $pm[1] $package")) {
         for (my $i = 0;
                 $i < $config->{package}->{$package}->{nbConfigFile};
                 ++$i) {
