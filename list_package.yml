@@ -63,7 +63,7 @@ package:
     xorg:
         nbConfigFile: 1
         configFile0: /etc/X11/xinit/xinitrc
-        defaultPath0: xinitrc
+        defaultPath0: ~/.xinitrc
         addLine0: setxkbmap fr, exec i3
         requires: none
 
