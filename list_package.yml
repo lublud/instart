@@ -11,6 +11,19 @@
 ##
 
 # requires can take none as value or a list of package separated by commas
+# addLineN can take one or more line separated by commas
+
+# structure:
+# package:
+#     package_name:
+#         nbConfigFile: 1
+#         configFile0: ./path/to/config/file
+#         defaultPath0: ~/path/to/config/file
+#         addLine0: a line, another line
+#         requires: package dependencies
+#         warning: >
+#             Any warning message relative to the newly
+#             installed package_name
 
 ---
 package:
@@ -62,9 +75,8 @@ package:
 
     xorg:
         nbConfigFile: 1
-        configFile0: /etc/X11/xinit/xinitrc
+        configFile0: ./xinit/xinitrc
         defaultPath0: ~/.xinitrc
-        addLine0: setxkbmap fr, exec i3
         requires: none
         warning: >
             You might need to modify /etc/X11/Xwrapper.config

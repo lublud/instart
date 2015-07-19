@@ -30,3 +30,13 @@ execute pathogen#infect()
 
 " Special highlighting for Doxygen
 :let g:load_doxygen_syntax=1
+
+" Keymap
+cmap w!! w !sudo tee % >/dev/null
+cmap s!! set spell spelllang=
+
+" Use hjkl
+nnoremap <Left> :echoe "Use h you NOOB!"<CR>
+nnoremap <Right> :echoe "Use l you NOOB!"<CR>
+nnoremap <Up> :echoe "Use k you NOOB!"<CR>
+nnoremap <Down> :echoe "Use j you NOOB!"<CR>
