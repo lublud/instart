@@ -30,6 +30,7 @@ package:
     axel:
         nbConfigFile: 0
         requires: none
+
     cmus:
         nbConfigFile: 0
         requires: none
@@ -46,6 +47,10 @@ package:
         nbConfigFile: 0
         requires: none
 
+    git:
+        nbConfigFile: 0
+        requires: none
+
     i3:
         nbConfigFile: 2
         configFile0: ./i3/config
@@ -59,6 +64,18 @@ package:
         requires: none
 
     make:
+        nbConfigFile: 0
+        requires: none
+
+    mplayer:
+        nbConfigFile: 0
+        requires: none
+
+    scrot:
+        nbConfigFile: 0
+        requires: none
+
+    stellarium:
         nbConfigFile: 0
         requires: none
 

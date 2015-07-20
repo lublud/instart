@@ -41,9 +41,12 @@ grow by adding packages in `list_package.yml`:
     - ddd
     - gcc
     - gdb
+    - git
     - i3
     - lynx
     - make
+    - scrot
+    - stellarium
     - terminator
     - vim
     - xorg
