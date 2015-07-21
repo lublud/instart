@@ -45,6 +45,7 @@ grow by adding packages in `list_package.yml`:
     - i3
     - lynx
     - make
+    - ranger
     - scrot
     - stellarium
     - terminator

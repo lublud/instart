@@ -125,6 +125,16 @@ sub execute {
                     print $out "$line\n";
                 }
             }
+
+            if (exists $config->{package}->{$package}->{execute}) {
+                my $exec = $config->{package}->{$package}->{execute};
+                print "\nAbout to execute \`$exec\` ...\n";
+                print "Do you want to continue? (yes/no) ";
+                chomp ($tmp = <STDIN>);
+                if ("yes" eq $tmp) {
+                    system ($exec);
+                }
+            }
         }
         if (exists $config->{package}->{$package}->{warning}) {
             print "Warning: ";

@@ -21,6 +21,9 @@
 #         defaultPath0: ~/path/to/config/file
 #         addLine0: a line, another line
 #         requires: package dependencies
+#         execute: >
+#             command 0; command 1;
+#             command 2
 #         warning: >
 #             Any warning message relative to the newly
 #             installed package_name
@@ -70,6 +73,12 @@ package:
     mplayer:
         nbConfigFile: 0
         requires: none
+
+    ranger:
+        nbConfigFile: 0
+        requires: none
+        execute: >
+            ranger --copy-config=all
 
     scrot:
         nbConfigFile: 0
