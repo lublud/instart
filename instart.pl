@@ -113,7 +113,7 @@ sub execute {
             print "Copy \`$configFile\` to \`$defaultPath\`...\n";
             copy ($configFile, $defaultPath) or die "Copy failed: $!";
 
-            # Append to file possible new lines
+# Append to file possible new lines
             my $add = "addLine" . $i;
             if (exists $config->{package}->{$package}->{$add}) {
                 open my $out, '>>', "$defaultPath" or die "Write failed: $!";
@@ -125,14 +125,18 @@ sub execute {
                     print $out "$line\n";
                 }
             }
+        }
 
-            if (exists $config->{package}->{$package}->{execute}) {
-                my $exec = $config->{package}->{$package}->{execute};
-                print "\nAbout to execute \`$exec\` ...\n";
+        if (exists $config->{package}->{$package}->{execute}) {
+            chomp(my $execommand = $config->{package}->{$package}->{execute});
+            my @exec = split (/; /, $execommand);
+            foreach my $command (@exec) {
+                print "\nAbout to execute \`$command\` ...\n";
                 print "Do you want to continue? (yes/no) ";
-                chomp ($tmp = <STDIN>);
+                my $tmp = <STDIN>;
+                chomp ($tmp);
                 if ("yes" eq $tmp) {
-                    system ($exec);
+                    system ($command);
                 }
             }
         }
