@@ -12,13 +12,18 @@ with their configuration files so time is not wasted doing something that
 has already been done again and again before.
 
 # How it works
-One the script is executed, users can either update and upgrade packages 
-and system or install new ones. If they choose to install new packages,
-the list of available package (taken from a YAML file) is shown. They then
-need to write the name -- as it is shown -- of the package they want to
-install.
-Once the package is installed on the system, and if there is any config
-file available, they are copied to a specified location (can be changed).
+One the script is executed, users have three choices beside leaving the
+program:
+    - Update && upgrade packages/system
+    - Install new package
+    - Get config file for shell
+
+If they choose to install new packages, the list of available package
+(taken from a YAML file) is shown. They then need to write the name -- as
+it is shown -- of the package they want to install.
+Once the package is installed on the system, and if there is any file
+available, configuration files are copied to a specified location that can
+be changed).
 
 # Requirements
 In order to run this script `YAML::XS` module is needed.

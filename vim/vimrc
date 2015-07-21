@@ -22,7 +22,8 @@ execute pathogen#infect()
 " Special configuration for development
 " Show when a line ecxeeds 80 chars
 :filetype on
-:autocmd FileType .c,.cpp,.cxx,.h set cindent|set cin|set softtabstop=4|set expandtab
+:autocmd FileType .c,.cpp,.cxx,.h set cindent|set cin|set softtabstop=4
+              \ |set expandtab
 " :au BufWinEnter * let w:m1=matchadd('ErrorMsg', '\%>73v.\+', -1)
 :set smartindent
 
@@ -40,3 +41,12 @@ nnoremap <Left> :echoe "Use h you NOOB!"<CR>
 nnoremap <Right> :echoe "Use l you NOOB!"<CR>
 nnoremap <Up> :echoe "Use k you NOOB!"<CR>
 nnoremap <Down> :echoe "Use j you NOOB!"<CR>
+
+
+" Convenient command to see the difference between the current buffer and the
+" file it was loaded from, thus the changes you made.
+" Only define it when not defined already.
+if !exists(":DiffOrig")
+      command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
+              \ | wincmd p | diffthis
+endif
