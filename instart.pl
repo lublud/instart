@@ -111,12 +111,12 @@ sub execute {
             }
 
             print "Copy \`$configFile\` to \`$defaultPath\`...\n";
-            copy ($configFile, $defaultPath) or die "Copy failed: $!";
+            copy ($configFile, $defaultPath) or die "Copy failed: $!\n";
 
 # Append to file possible new lines
             my $add = "addLine" . $i;
             if (exists $config->{package}->{$package}->{$add}) {
-                open my $out, '>>', "$defaultPath" or die "Write failed: $!";
+                open my $out, '>>', "$defaultPath" or die "Write failed: $!\n";
 
                 my @addLine = split (/, /,
                         $config->{package}->{$package}->{$add});
@@ -167,6 +167,40 @@ sub installPackage {
     execute ($config, $choice, @pm);
 
 } # installPackage
+
+sub configShell {
+    print "\n";
+    print "Shell available:\n";
+    print "\t1 - bash\n\t2 - oh-my-zsh\n\n";
+    print "Choice: ";
+
+    my $choice = <STDIN>;
+    chomp ($choice);
+    while ($choice ne "1" && $choice ne "2") {
+        print "Option not available...\nChoose an existing option: ";
+        chomp ($choice = <STDIN>);
+    }
+
+    my $directory = "";
+    my $dest = $ENV{HOME} . "/";
+    if ("1" eq $choice) {
+        $directory = "./bash"; 
+        $dest = $dest . ".";
+    }
+    else {
+        $directory = "./zsh";
+        $dest = $dest . ".oh-my-zsg/custom/";
+    }
+
+    my @dir = <"$directory/*">;
+    foreach my $file (@dir) {
+        my @filename = split (/\//, $file);
+        my $tmp = $dest . $filename[$#filename];
+        print "Copy \`$file\` to \`$tmp\`...\n";
+        copy ($file, $tmp) or die "Copy failed: $!\n";
+    }
+
+} # configShell
 
 
 sub menu {
@@ -220,12 +254,15 @@ sub main {
     while (1) {
         print "\n";
         print "Option available:\n";
-        print "\t1 - Update && Upgrade\n\t2 - Install package\n\t3 - Quit\n\n";
+        print "\t1 - Update && Upgrade\n\t2 - Install package\n\t3 - shell ";
+        print "\n\t4 - Quit\n\n";
+
         print "Choice: ";
 
         my $choice = <STDIN>;
         chomp ($choice);
-        while ($choice ne "1" && $choice ne "2" && $choice ne "3") {
+        while ($choice ne "1" && $choice ne "2" &&
+                $choice ne "3" && $choice ne "4") {
             print "Option not available...\nChoose an existing option: ";
             chomp ($choice = <STDIN>);
         }
@@ -235,6 +272,9 @@ sub main {
         }
         elsif ("2" eq $choice) {
             installPackage($config, @pm);
+        }
+        elsif ("3" eq $choice) {
+            configShell();
         }
         else {
             print "Thank you for using instart!\n\n";
