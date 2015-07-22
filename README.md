@@ -14,6 +14,7 @@ has already been done again and again before.
 # How it works
 One the script is executed, users have three choices beside leaving the
 program:
+
     - Update && upgrade packages/system
     - Install new package
     - Get config file for shell
