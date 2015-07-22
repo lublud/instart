@@ -42,11 +42,15 @@ The following is the list of available packages. This list can (and will)
 grow by adding packages in `list_package.yml`:
 
     - axel
+    - calcurse
     - cmus
     - ddd
+    - dunst
+    - feh
     - gcc
     - gdb
     - git
+    - gpicview
     - i3
     - lynx
     - make

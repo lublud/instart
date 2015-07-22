@@ -34,11 +34,25 @@ package:
         nbConfigFile: 0
         requires: none
 
+    calcurse:
+        nbConfigFile: 0
+        requires: none
+
     cmus:
         nbConfigFile: 0
         requires: none
 
     ddd:
+        nbConfigFile: 0
+        requires: none
+
+    dunst:
+        nbConfigFile: 1
+        configFile0: ./dunst/dunstrc
+        defaultPath0: ~/.config/dunst/dunstrc
+        requires: none
+
+    feh:
         nbConfigFile: 0
         requires: none
 
@@ -51,6 +65,10 @@ package:
         requires: none
 
     git:
+        nbConfigFile: 0
+        requires: none
+
+    gpicview:
         nbConfigFile: 0
         requires: none
 
