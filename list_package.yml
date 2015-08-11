@@ -121,7 +121,7 @@ package:
         nbConfigFile: 1
         configFile0: ./xinit/xinitrc
         defaultPath0: ~/.xinitrc
-        requires: none
+        requires: xorg-xinit
         warning: >
             You might need to modify /etc/X11/Xwrapper.config
             to start a new X session

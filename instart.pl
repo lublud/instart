@@ -160,7 +160,12 @@ sub installPackage {
         print "to be installed: $req\n";
         my @requires = split (/, /, $req);
         foreach my $package (@requires) {
-            execute ($config, $package, @pm);
+            if (exists $config->{package}) {
+                execute ($config, $package, @pm);
+            }
+            else {
+                system ("sudo $pm[0] $pm[1] $package");
+            }
         }
     }
 
