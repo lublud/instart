@@ -174,6 +174,8 @@ sub installPackage {
 } # installPackage
 
 sub configShell {
+    my @pm = @_;
+
     print "\n";
     print "Shell available:\n";
     print "\t1 - bash\n\t2 - oh-my-zsh\n\n";
@@ -194,7 +196,14 @@ sub configShell {
     }
     else {
         $directory = "./zsh";
-        $dest = $dest . ".oh-my-zsg/custom/";
+        $dest = $dest . ".oh-my-zsh/custom/";
+
+        print "Installing Zsh...\n";
+        system ("sudo $pm[0] $pm[1] zsh");
+        system ("chsh -s /usr/bin/zsh");
+
+        print "Downloading and installing oh-my-zsh...\n";
+        system ("sh -c \"\$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)\"")
     }
 
     my @dir = <"$directory/*">;
@@ -279,7 +288,7 @@ sub main {
             installPackage($config, @pm);
         }
         elsif ("3" eq $choice) {
-            configShell();
+            configShell(@pm);
         }
         else {
             print "Thank you for using instart!\n\n";
