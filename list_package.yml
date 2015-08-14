@@ -42,6 +42,10 @@ package:
         nbConfigFile: 0
         requires: none
 
+    curl:
+        nbConfigFile: 0
+        requires: none
+
     ddd:
         nbConfigFile: 0
         requires: none

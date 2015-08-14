@@ -45,6 +45,7 @@ grow by adding packages in `list_package.yml`:
     - axel
     - calcurse
     - cmus
+    - curl
     - ddd
     - dunst
     - feh
@@ -53,12 +54,14 @@ grow by adding packages in `list_package.yml`:
     - git
     - gpicview
     - i3
+    - kile
     - lynx
     - make
     - ranger
     - scrot
     - stellarium
     - terminator
+    - texlive
     - vim
     - xorg
     - zathura
