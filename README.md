@@ -62,6 +62,7 @@ grow by adding packages in `list_package.yml`:
     - scrot
     - stellarium
     - terminator
+    - tmux
     - vim
     - xorg
     - zathura

@@ -131,6 +131,10 @@ package:
         nbConfigFile: 0
         requires: none
 
+    tmux:
+        nbConfigFile: 0
+        requires: none
+
     vim:
         nbConfigFile: 2
         configFile0: ./vim/vimrc
