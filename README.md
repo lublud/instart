@@ -49,6 +49,7 @@ grow by adding packages in `list_package.yml`:
     - ddd
     - dunst
     - feh
+    - firefox
     - gcc
     - gdb
     - git
@@ -56,6 +57,7 @@ grow by adding packages in `list_package.yml`:
     - i3
     - lynx
     - make
+    - mplayer
     - ranger
     - scrot
     - stellarium

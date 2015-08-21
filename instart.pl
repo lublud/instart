@@ -50,6 +50,28 @@ sub getPackageManager {
     }
 } # getPackageManager
 
+sub distribSpecific {
+    my $config = $_[0];
+    my $package = $_[1];
+    my $distrib = $config->{package}->{$package}->{distrib}->{name};
+    print $distrib;
+    if (index (qx (cat /etc/*-release), $distrib) != -1) {
+        chomp(my $execommand = $config->{package}->{$package}->{distrib}->{command});
+        my @exec = split (/; /, $execommand);
+
+        foreach my $command (@exec) {
+            print "\nAbout to execute \`$command\` ...\n";
+            print "Do you want to continue? (yes/no) ";
+            my $tmp = <STDIN>;
+            chomp ($tmp);
+            if ("yes" eq $tmp) {
+                system ($command);
+            }
+        }
+    }
+
+} # distribSpecific
+
 
 sub readConfigFile {
     my $config = LoadFile ('list_package.yml');
@@ -153,6 +175,8 @@ sub installPackage {
     my @pm = splice (@_, 1, $#_);
 
     my $choice = menu($config);
+
+    distribSpecific ($config, $choice);
 
     my $req = $config->{package}->{$choice}->{requires};
     if ($req  ne "none") {

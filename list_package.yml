@@ -21,6 +21,13 @@
 #         defaultPath0: ~/path/to/config/file
 #         addLine0: a line, another line
 #         requires: package dependencies
+#         distrib:
+#             name: Arch
+#             command: >
+#                command 0; command 1;
+#             name: Debian
+#             command: >
+#                command 0; command 1;
 #         execute: >
 #             command 0; command 1;
 #             command 2
@@ -59,6 +66,16 @@ package:
     feh:
         nbConfigFile: 0
         requires: none
+
+    firefox:
+        nbConfigFile: 0
+        requires: none
+        distrib:
+            name: Debian
+            command: >
+                sudo apt-get remove iceweasel;
+                echo "\ndeb http://packages.linuxmint.com debian import" | sudo tee -a /etc/apt/sources.list;
+                sudo apt-get update    
 
     gcc:
         nbConfigFile: 0
