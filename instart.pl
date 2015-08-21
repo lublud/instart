@@ -53,18 +53,19 @@ sub getPackageManager {
 sub distribSpecific {
     my $config = $_[0];
     my $package = $_[1];
-    my $distrib = $config->{package}->{$package}->{distrib}->{name};
-    print $distrib;
-    if (index (qx (cat /etc/*-release), $distrib) != -1) {
-        chomp(my $execommand = $config->{package}->{$package}->{distrib}->{command});
-        my @exec = split (/; /, $execommand);
 
-        foreach my $command (@exec) {
-            print "\nAbout to execute \`$command\` ...\n";
-            print "Do you want to continue? (yes/no) ";
-            my $tmp = <STDIN>;
-            chomp ($tmp);
-            if ("yes" eq $tmp) {
+    for (my $i = 0;
+        $i < $config->{package}->{$package}->{distrib}->{nbDistrib};
+        ++$i) {
+        my $name = "name" . $i;
+        my $distrib = $config->{package}->{$package}->{distrib}->{$name};
+        my $commandDist = "command-" . $distrib;
+
+        if (index (qx (cat /etc/*-release), $distrib) != -1) {
+            chomp(my $execommand = $config->{package}->{$package}->{distrib}->{$commandDist});
+            my @exec = split (/; /, $execommand);
+
+            foreach my $command (@exec) {
                 system ($command);
             }
         }

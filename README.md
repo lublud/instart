@@ -55,6 +55,7 @@ grow by adding packages in `list_package.yml`:
     - git
     - gpicview
     - i3
+    - kile
     - lynx
     - make
     - mplayer

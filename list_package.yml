@@ -23,10 +23,10 @@
 #         requires: package dependencies
 #         distrib:
 #             name: Arch
-#             command: >
+#             command-Arch: >
 #                command 0; command 1;
 #             name: Debian
-#             command: >
+#             command-Debian: >
 #                command 0; command 1;
 #         execute: >
 #             command 0; command 1;
@@ -72,7 +72,7 @@ package:
         requires: none
         distrib:
             name: Debian
-            command: >
+            command-Debian: >
                 sudo apt-get remove iceweasel;
                 echo "\ndeb http://packages.linuxmint.com debian import" | sudo tee -a /etc/apt/sources.list;
                 sudo apt-get update    
@@ -100,6 +100,22 @@ package:
         configFile1: ./i3/i3status.conf
         defaultPath1: ~/.i3status.conf
         requires: xorg
+
+    kile:
+        nbConfigFile: 0
+        requires: none
+        distrib:
+            nbDistrib: 2
+            name0: Debian
+            command-Debian: >
+                sudo apt-get install texlive-base;
+                sudo apt-get install texlive-latex-base;
+                sudo apt-get install texlive-lang-french;
+                echo "\ntexlive-latex-extra is much bigger and not necessarily useful: it adds a lot of packages including beamer, cv, etc.\n";
+                sudo apt-get install texlive-latex-extra;
+            name1: Arch
+            command-Arch: >
+                sudo pacman -S texlive-core; 
 
     lynx:
         nbConfigFile: 0
