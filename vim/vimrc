@@ -2,38 +2,89 @@ if !empty(system("setxkbmap -print|grep bepo"))
     source ~/.vimrc.bepo
 endif
 
-" Global settings
-:set nocompatible
-:set hlsearch
-:set shiftwidth=4
-:set background=dark
-:set cursorline
-:set expandtab
-:set tabstop=4
-
 execute pathogen#infect()
 
-:syntax on
+" Leader - ( Spacebar )
+let mapleader = " "
 
-" Show line number
-:set number
-:highlight LineNr term=bold ctermfg=darkgray guifg=darkgray
+" Global settings
+set nocompatible
+set hlsearch
+set cursorline
+
+set background=dark
+
+set shiftwidth=4
+set expandtab
+set tabstop=4
+
+syntax on
+
+" Start scrolling when we are 3 lines away from margins
+set scrolloff=3
+
+" Open new split panes to right and bottom
+set splitbelow
+set splitright
+
+" Auto resize Vim splits to active split
+set winwidth=84
+set winheight=5
+set winminheight=5
+set winheight=999
+
+" Resize panes
+nnoremap <silent> <C-Right> :vertical resize +5<cr>
+nnoremap <silent> <C-Left> :vertical resize -5<cr>
+nnoremap <silent> <C-Up> :resize +5<cr>
+nnoremap <silent> <C-Down> :resize -5<cr>
+
+" Quicker window movement
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-h> <C-w>h
+nnoremap <C-l> <C-w>l
+
+" Switch between the last two files
+nnoremap <leader><leader> <c-^>
+
+" Show line numbers
+set number
+highlight LineNr term=bold ctermfg=darkgray guifg=darkgray
+
+" Toggle relative numbering, set to absolute on loss of focus or insert mode
+set rnu
+function! ToggleNumberOn()
+    set nu!
+    set rnu
+endfunction
+function! ToggleRelativeOn()
+    set rnu!
+    set nu
+endfunction
+
+autocmd FocusLost * call ToggleRelativeOn()
+autocmd FocusGained * call ToggleRelativeOn()
+autocmd InsertEnter * call ToggleRelativeOn()
+autocmd InsertLeave * call ToggleRelativeOn()
+
+nnoremap <C-t> :call ToggleRelativeOn()<cr>
 
 " Special configuration for development
-" Show when a line ecxeeds 80 chars
-:filetype on
-:autocmd FileType .c,.cpp,.cxx,.h set cindent|set cin|set softtabstop=4
-              \ |set expandtab
-" :au BufWinEnter * let w:m1=matchadd('ErrorMsg', '\%>73v.\+', -1)
-:set smartindent
+filetype on
+autocmd FileType .c,.cpp,.cxx,.h set cindent|set cin|set softtabstop=4
+set smartindent
 
-:autocmd FileType make setlocal noexpandtab
+" Does not expand type for makefiles
+autocmd FileType make setlocal noexpandtab
 
 " Special highlighting for Doxygen
-:let g:load_doxygen_syntax=1
+let g:load_doxygen_syntax=1
 
-" Keymap
+" Enable saving a file when forgot to sudo
 cmap w!! w !sudo tee % >/dev/null
+
+" Quick way to enable spell check
 cmap s!! set spell spelllang=
 
 " Use hjkl
@@ -50,3 +101,7 @@ if !exists(":DiffOrig")
       command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
               \ | wincmd p | diffthis
 endif
+
+" Plugins specific
+" NERDTree
+map <C-n> :NERDTreeToggle<cr>
