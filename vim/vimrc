@@ -2,7 +2,9 @@ if !empty(system("setxkbmap -print|grep bepo"))
     source ~/.vimrc.bepo
 endif
 
-execute pathogen#infect()
+if exists("*pathogen#infect")
+    execute pathogen#infect()
+endif
 
 " Leader - ( Spacebar )
 let mapleader = " "
