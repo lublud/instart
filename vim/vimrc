@@ -13,6 +13,7 @@ let mapleader = " "
 set nocompatible
 set hlsearch
 set cursorline
+set title
 
 set background=dark
 
