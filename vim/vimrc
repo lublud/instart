@@ -2,9 +2,9 @@ if !empty(system("setxkbmap -print|grep bepo"))
     source ~/.vimrc.bepo
 endif
 
-if exists("*pathogen#infect")
+"if exists("*pathogen#infect")
     execute pathogen#infect()
-endif
+"endif
 
 " Leader - ( Spacebar )
 let mapleader = " "
@@ -52,7 +52,6 @@ nnoremap <C-l> <C-w>l
 nnoremap <leader><leader> <c-^>
 
 " Show line numbers
-set number
 highlight LineNr term=bold ctermfg=darkgray guifg=darkgray
 
 " Toggle relative numbering, set to absolute on loss of focus or insert mode
@@ -67,11 +66,13 @@ function! ToggleRelativeOn()
 endfunction
 
 autocmd FocusLost * call ToggleRelativeOn()
-autocmd FocusGained * call ToggleRelativeOn()
+autocmd FocusGained * call ToggleNumberOn()
 autocmd InsertEnter * call ToggleRelativeOn()
-autocmd InsertLeave * call ToggleRelativeOn()
+autocmd InsertLeave * call ToggleNumberOn()
 
-nnoremap <C-t> :call ToggleRelativeOn()<cr>
+" Switch relative <-> absolute numbering
+nnoremap <leader>t :call ToggleRelativeOn()<cr>
+nnoremap <leader>r :call ToggleNumberOn()<cr>
 
 " Special configuration for development
 filetype on
@@ -95,6 +96,9 @@ nnoremap <Left> :echoe "Use h you NOOB!"<CR>
 nnoremap <Right> :echoe "Use l you NOOB!"<CR>
 nnoremap <Up> :echoe "Use k you NOOB!"<CR>
 nnoremap <Down> :echoe "Use j you NOOB!"<CR>
+
+" Stop current highlighting
+nnoremap <C-h> :noh<cr>
 
 
 " Convenient command to see the difference between the current buffer and the
