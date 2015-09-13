@@ -163,6 +163,9 @@ package:
         configFile0: ./xinit/xinitrc
         defaultPath0: ~/.xinitrc
         requires: xorg-xinit
+        distrib:
+            command-Arch: >
+                sudo pacman -S xorg-xinit; 
         warning: >
             You might need to modify /etc/X11/Xwrapper.config
             to start a new X session
