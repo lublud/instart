@@ -176,6 +176,9 @@ sub installPackage {
     my @pm = splice (@_, 1, $#_);
 
     my $choice = menu($config);
+    if ($choice eq "cancel") {
+        return;
+    }
 
     distribSpecific ($config, $choice);
 
@@ -203,12 +206,12 @@ sub configShell {
 
     print "\n";
     print "Shell available:\n";
-    print "\t1 - bash\n\t2 - oh-my-zsh\n\n";
+    print "\t1 - bash\n\t2 - oh-my-zsh\n\t3 - cancel\n\n";
     print "Choice: ";
 
     my $choice = <STDIN>;
     chomp ($choice);
-    while ($choice ne "1" && $choice ne "2") {
+    while ($choice ne "1" && $choice ne "2" && $choice ne "3") {
         print "Option not available...\nChoose an existing option: ";
         chomp ($choice = <STDIN>);
     }
@@ -219,7 +222,7 @@ sub configShell {
         $directory = "./bash"; 
         $dest = $dest . ".";
     }
-    else {
+    elsif ("2" eq $choice) {
         $directory = "./zsh";
         $dest = $dest . ".oh-my-zsh/custom/";
 
@@ -230,6 +233,10 @@ sub configShell {
         print "Downloading and installing oh-my-zsh...\n";
         system ("sh -c \"\$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)\"")
     }
+    else { # cancel
+        return;
+    }
+
 
     my @dir = <"$directory/*">;
     foreach my $file (@dir) {
@@ -253,20 +260,20 @@ sub menu {
         print "\t - $_\n";
     }
 
-    print "\nChoice (quit to quit): ";
+    print "\nChoice (cancel to cancel): ";
     my $in = "";
     chomp ($in = <STDIN>);
-    if ("quit" eq $in) {
-        print "Thank you for using instart!\n\n";
-        exit;
+
+    if ($in eq "cancel") {
+        return "cancel";
     }
 
     while (! exists $config->{package}->{$in}) {
         print "This option is not available...\nChoice: ";
         chomp ($in = <STDIN>);
-        if ("quit" eq $in) {
-            print "Thank you for using instart!\n\n";
-            exit;
+
+        if ($in eq "cancel") {
+            return "cancel";
         }
     }
 
@@ -293,7 +300,7 @@ sub main {
     while (1) {
         print "\n";
         print "Option available:\n";
-        print "\t1 - Update && Upgrade\n\t2 - Install package\n\t3 - shell ";
+        print "\t1 - Update && Upgrade\n\t2 - Install package\n\t3 - Shell ";
         print "\n\t4 - Quit\n\n";
 
         print "Choice: ";
