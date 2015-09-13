@@ -54,6 +54,7 @@ grow by adding packages in `list_package.yml`:
     - gdb
     - git
     - gpicview
+    - htop
     - i3
     - kile (+ texlive)
     - lynx

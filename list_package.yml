@@ -93,6 +93,10 @@ package:
         nbConfigFile: 0
         requires: none
 
+    htop:
+        nbConfigFile: 0
+        requires: none
+
     i3:
         nbConfigFile: 2
         configFile0: ./i3/config
