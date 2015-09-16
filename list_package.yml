@@ -37,6 +37,10 @@
 
 ---
 package:
+    alsa-utils:
+        nbConfigFile: 0
+        requires: none
+
     axel:
         nbConfigFile: 0
         requires: none

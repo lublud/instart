@@ -42,6 +42,7 @@ Only two package manager can be used as of today:
 The following is the list of available packages. This list can (and will) 
 grow by adding packages in `list_package.yml`:
 
+    - alsa-utils
     - axel
     - calcurse
     - cmus
