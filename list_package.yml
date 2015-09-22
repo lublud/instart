@@ -22,10 +22,11 @@
 #         addLine0: a line, another line
 #         requires: package dependencies
 #         distrib:
-#             name: Arch
+#             nbDistrib: 2
+#             name0: Arch
 #             command-Arch: >
 #                command 0; command 1;
-#             name: Debian
+#             name1: Debian
 #             command-Debian: >
 #                command 0; command 1;
 #         execute: >
@@ -75,7 +76,8 @@ package:
         nbConfigFile: 0
         requires: none
         distrib:
-            name: Debian
+            nbDistrib: 1
+            name0: Debian
             command-Debian: >
                 sudo apt-get remove iceweasel;
                 echo "\ndeb http://packages.linuxmint.com debian import" | sudo tee -a /etc/apt/sources.list;
@@ -170,8 +172,9 @@ package:
         nbConfigFile: 1
         configFile0: ./xinit/xinitrc
         defaultPath0: ~/.xinitrc
-        requires: xorg-xinit
         distrib:
+            nbDistrib: 1
+            name0: Arch
             command-Arch: >
                 sudo pacman -S xorg-xinit; 
         warning: >

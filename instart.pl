@@ -99,6 +99,8 @@ sub execute {
     my $config = $_[0];
     my $package = $_[1];
     my @pm = splice (@_, 2, $#_);
+        
+    distribSpecific ($config, $package);
 
     print "\nAbout to execute \`sudo $pm[0] $pm[1] $package\` ...\n";
     sleep (1);
@@ -175,29 +177,31 @@ sub installPackage {
     my $config = $_[0];
     my @pm = splice (@_, 1, $#_);
 
-    my $choice = menu($config);
-    if ($choice eq "cancel") {
+    my @listpackage = menu($config);
+    if ($listpackage[0] eq "cancel") {
         return;
     }
 
-    distribSpecific ($config, $choice);
+    foreach my $choice (@listpackage) {
 
-    my $req = $config->{package}->{$choice}->{requires};
-    if ($req  ne "none") {
-        print "In order to install $choice, the following package(s) need(s) ";
-        print "to be installed: $req\n";
-        my @requires = split (/, /, $req);
-        foreach my $package (@requires) {
-            if (exists $config->{package}) {
-                execute ($config, $package, @pm);
-            }
-            else {
-                system ("sudo $pm[0] $pm[1] $package");
+        my $req = $config->{package}->{$choice}->{requires};
+        if ($req  ne "none") {
+            print "In order to install $choice, the following package(s) need(s) ";
+            print "to be installed: $req\n";
+            my @requires = split (/, /, $req);
+            foreach my $package (@requires) {
+                if (exists $config->{package}) {
+                    print $package;
+                    execute ($config, $package, @pm);
+                }
+                else {
+                    system ("sudo $pm[0] $pm[1] $package");
+                }
             }
         }
-    }
 
-    execute ($config, $choice, @pm);
+        execute ($config, $choice, @pm);
+    }
 
 } # installPackage
 
@@ -260,24 +264,28 @@ sub menu {
         print "\t - $_\n";
     }
 
+    my @listpackage = ();
+
     print "\nChoice (cancel to cancel): ";
     my $in = "";
     chomp ($in = <STDIN>);
 
     if ($in eq "cancel") {
-        return "cancel";
+        push (@listpackage, "cancel");
+        return @listpackage;
     }
 
-    while (! exists $config->{package}->{$in}) {
-        print "This option is not available...\nChoice: ";
-        chomp ($in = <STDIN>);
+    my @packages = split (/ /, $in);
 
-        if ($in eq "cancel") {
-            return "cancel";
+    foreach my $pack (@packages) {
+        if (! exists $config->{package}->{$pack}) {
+            print "Unknown $pack. Ignoring.\n";
+        } else {
+            push (@listpackage, $pack);
         }
     }
 
-    return $in;
+    return @listpackage;
 
 } # menu
 
