@@ -191,7 +191,6 @@ sub installPackage {
             my @requires = split (/, /, $req);
             foreach my $package (@requires) {
                 if (exists $config->{package}) {
-                    print $package;
                     execute ($config, $package, @pm);
                 }
                 else {

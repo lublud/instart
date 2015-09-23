@@ -104,12 +104,19 @@ package:
         requires: none
 
     i3:
-        nbConfigFile: 2
+        nbConfigFile: 4
         configFile0: ./i3/config
         defaultPath0: ~/.i3/config
         configFile1: ./i3/i3status.conf
         defaultPath1: ~/.i3status.conf
+        configFile2: ./i3/bright_up.sh
+        defaultPath2: ~/.i3/bright_up.sh
+        configFile3: ./i3/bright_down.sh
+        defaultPath3: ~/.i3/bright_down.sh
         requires: xorg
+        execute: >
+            chmod +x ~/.i3/bright_down.sh;
+            chmod +x ~/.i3/bright_up.sh
 
     kile:
         nbConfigFile: 0

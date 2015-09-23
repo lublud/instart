@@ -226,6 +226,12 @@ bindcode 171 exec playerctl next
 # XF86AudioPrev
 bindcode 173 exec playerctl previous
 
+# brightness
+# XF86MonBrightnessDown
+bindcode 232 exec --no-startup-id sudo ~/.i3/bright_down.sh
+# XF86MonBrightnessUp
+bindcode 233 exec --no-startup-id sudo ~/.i3/bright_up.sh
+
 # i
 bindcode $mod+31 exec firefox
 # p
