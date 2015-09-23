@@ -117,6 +117,13 @@ package:
         execute: >
             chmod +x ~/.i3/bright_down.sh;
             chmod +x ~/.i3/bright_up.sh
+        warning: >
+            In order to use the scripts to control the brightness,
+            run `sudo visudo`. In the file, add the following lines:
+            `<username> <hostname> = NOPASSWD: /path/to/bright_up.sh`
+            and
+            `<username> <hostname> = NOPASSWD: /path/to/bright_down.sh`
+
 
     kile:
         nbConfigFile: 0
