@@ -2,9 +2,10 @@ if !empty(system("setxkbmap -print|grep bepo"))
     source ~/.vimrc.bepo
 endif
 
-"if exists("*pathogen#infect")
+let file = expand("~/.vim/autoload/pathogen.vim")
+if filereadable(file)
     execute pathogen#infect()
-"endif
+endif
 
 " Leader - ( Spacebar )
 let mapleader = " "
@@ -55,6 +56,7 @@ nnoremap <leader><leader> <c-^>
 highlight LineNr term=bold ctermfg=darkgray guifg=darkgray
 
 " Toggle relative numbering, set to absolute on loss of focus or insert mode
+set nu!
 set rnu
 function! ToggleNumberOn()
     set nu!
