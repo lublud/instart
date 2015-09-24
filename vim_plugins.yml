@@ -18,8 +18,11 @@ plugins:
     ctrlp: >
         git clone https://github.com/kien/ctrlp.vim
 
-    NerdTree: >
-        git clone https://github.com/scrooloose/nerdtree.git
+    nerdtree: >
+        git clone https://github.com/scrooloose/nerdtree
+
+    syntastic: >
+        git clone https://github.com/scrooloose/syntastic
 
     ultisnips: >
         git clone https://github.com/SirVer/ultisnips

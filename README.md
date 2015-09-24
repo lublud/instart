@@ -84,6 +84,7 @@ The following is the list of available plugins for vim. This list can
 (and will) grow by adding packages in `vim_plugins.yml`:
 
     - ctrlp
-    - NerdTree
+    - nerdtree
+    - syntastic
     - ultisnips
     - vim-snippets
