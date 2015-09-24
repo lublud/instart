@@ -1,0 +1,28 @@
+##
+#
+# file: vim_plugins.yml
+#
+# author: lublud
+#
+# date: 24/09/2015
+#
+# brief: list of vim plugins to be installed
+#
+##
+
+---
+pathogen: >
+    mkdir -p ~/.vim/autoload ~/.vim/bundle;
+    curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
+plugins:
+    ctrlp: >
+        git clone https://github.com/kien/ctrlp.vim
+
+    NerdTree: >
+        git clone https://github.com/scrooloose/nerdtree.git
+
+    ultisnips: >
+        git clone https://github.com/SirVer/ultisnips
+
+    vim-snippets: >
+        git clone https://github.com/honza/vim-snippets

@@ -51,18 +51,18 @@ sub getPackageManager {
 } # getPackageManager
 
 sub distribSpecific {
-    my $config = $_[0];
+    my $packageList = $_[0];
     my $package = $_[1];
 
     for (my $i = 0;
-        $i < $config->{package}->{$package}->{distrib}->{nbDistrib};
+        $i < $packageList->{package}->{$package}->{distrib}->{nbDistrib};
         ++$i) {
         my $name = "name" . $i;
-        my $distrib = $config->{package}->{$package}->{distrib}->{$name};
+        my $distrib = $packageList->{package}->{$package}->{distrib}->{$name};
         my $commandDist = "command-" . $distrib;
 
         if (index (qx (cat /etc/*-release), $distrib) != -1) {
-            chomp(my $execommand = $config->{package}->{$package}->{distrib}->{$commandDist});
+            chomp(my $execommand = $packageList->{package}->{$package}->{distrib}->{$commandDist});
             my @exec = split (/; /, $execommand);
 
             foreach my $command (@exec) {
@@ -74,12 +74,19 @@ sub distribSpecific {
 } # distribSpecific
 
 
-sub readConfigFile {
-    my $config = LoadFile ('list_package.yml');
+sub readPackageList {
+    my $packageList = LoadFile ('list_package.yml');
 
-    return $config;
+    return $packageList;
 
-} # readConfigFile
+} # readPackageList
+
+sub readVimPlugins {
+    my $vimPlugins = LoadFile ('vim_plugins.yml');
+
+    return $vimPlugins;
+
+} # readVimPlugins 
 
 sub update {
     my @pm = @_;
@@ -96,28 +103,28 @@ sub update {
 
 
 sub execute {
-    my $config = $_[0];
+    my $packageList = $_[0];
     my $package = $_[1];
     my @pm = splice (@_, 2, $#_);
         
-    distribSpecific ($config, $package);
+    distribSpecific ($packageList, $package);
 
     print "\nAbout to execute \`sudo $pm[0] $pm[1] $package\` ...\n";
     sleep (1);
     if (! system ("sudo $pm[0] $pm[1] $package")) {
         for (my $i = 0;
-                $i < $config->{package}->{$package}->{nbConfigFile};
+                $i < $packageList->{package}->{$package}->{nbConfigFile};
                 ++$i) {
             my $conf = "configFile" . $i;
             my $path = "defaultPath" . $i;
 
-            my $configFile = $config->{package}->{$package}->{$conf};
-            my $defaultPath = $config->{package}->{$package}->{$path};
+            my $packageListFile = $packageList->{package}->{$package}->{$conf};
+            my $defaultPath = $packageList->{package}->{$package}->{$path};
 
-            $configFile =~ s/~/$ENV{HOME}/;
+            $packageListFile =~ s/~/$ENV{HOME}/;
             $defaultPath =~ s/~/$ENV{HOME}/;
 
-            print "\nDestination for $configFile ";
+            print "\nDestination for $packageListFile ";
             print "(default=$defaultPath): ";
             my $tmp = <STDIN>;
             chomp($tmp);
@@ -135,16 +142,16 @@ sub execute {
                 }
             }
 
-            print "Copy \`$configFile\` to \`$defaultPath\`...\n";
-            copy ($configFile, $defaultPath) or die "Copy failed: $!\n";
+            print "Copy \`$packageListFile\` to \`$defaultPath\`...\n";
+            copy ($packageListFile, $defaultPath) or die "Copy failed: $!\n";
 
 # Append to file possible new lines
             my $add = "addLine" . $i;
-            if (exists $config->{package}->{$package}->{$add}) {
+            if (exists $packageList->{package}->{$package}->{$add}) {
                 open my $out, '>>', "$defaultPath" or die "Write failed: $!\n";
 
                 my @addLine = split (/, /,
-                        $config->{package}->{$package}->{$add});
+                        $packageList->{package}->{$package}->{$add});
                 print $out "\n";
                 foreach my $line (@addLine) {
                     print $out "$line\n";
@@ -152,8 +159,8 @@ sub execute {
             }
         }
 
-        if (exists $config->{package}->{$package}->{execute}) {
-            chomp(my $execommand = $config->{package}->{$package}->{execute});
+        if (exists $packageList->{package}->{$package}->{execute}) {
+            chomp(my $execommand = $packageList->{package}->{$package}->{execute});
             my @exec = split (/; /, $execommand);
             foreach my $command (@exec) {
                 print "\nAbout to execute \`$command\` ...\n";
@@ -165,33 +172,33 @@ sub execute {
                 }
             }
         }
-        if (exists $config->{package}->{$package}->{warning}) {
+        if (exists $packageList->{package}->{$package}->{warning}) {
             print "Warning: ";
-            print "$config->{package}->{$package}->{warning}";
+            print "$packageList->{package}->{$package}->{warning}";
         }
     }
 } # execute
 
 
 sub installPackage {
-    my $config = $_[0];
+    my $packageList = $_[0];
     my @pm = splice (@_, 1, $#_);
 
-    my @listpackage = menu($config);
+    my @listpackage = menuPackage($packageList);
     if ($listpackage[0] eq "cancel") {
         return;
     }
 
     foreach my $choice (@listpackage) {
 
-        my $req = $config->{package}->{$choice}->{requires};
+        my $req = $packageList->{package}->{$choice}->{requires};
         if ($req  ne "none") {
             print "In order to install $choice, the following package(s) need(s) ";
             print "to be installed: $req\n";
             my @requires = split (/, /, $req);
             foreach my $package (@requires) {
-                if (exists $config->{package}) {
-                    execute ($config, $package, @pm);
+                if (exists $packageList->{package}) {
+                    execute ($packageList, $package, @pm);
                 }
                 else {
                     system ("sudo $pm[0] $pm[1] $package");
@@ -199,7 +206,7 @@ sub installPackage {
             }
         }
 
-        execute ($config, $choice, @pm);
+        execute ($packageList, $choice, @pm);
     }
 
 } # installPackage
@@ -252,14 +259,15 @@ sub configShell {
 } # configShell
 
 
-sub menu {
-    my $config = $_[0];
+sub menuPackage {
+    my $packageList = $_[0];
 
     print "\n";
-    print "The following list present your packages that you can install ";
+    print "The following list presents packages that you can install ";
     print "along with their configuration file if there is any available\n";
+    print "You can choose several packages by separating them with a space\n";
 
-    for (keys %{$config->{package}}) {
+    for (keys %{$packageList->{package}}) {
         print "\t - $_\n";
     }
 
@@ -277,7 +285,7 @@ sub menu {
     my @packages = split (/ /, $in);
 
     foreach my $pack (@packages) {
-        if (! exists $config->{package}->{$pack}) {
+        if (! exists $packageList->{package}->{$pack}) {
             print "Unknown $pack. Ignoring.\n";
         } else {
             push (@listpackage, $pack);
@@ -286,11 +294,90 @@ sub menu {
 
     return @listpackage;
 
-} # menu
+} # menuPackage
+
+
+sub vimPlugin {
+    print "\n";
+    print "This script uses pathogen in order to install any plugin.";
+
+    my $vimPlugins = readVimPlugins();
+
+    if ( ! -f "$ENV{HOME}/.vim/autoload/pathogen.vim") {
+        chomp(my $execommand = $vimPlugins->{pathogen});
+        my @exec = split (/; /, $execommand);
+        print "\n";
+
+        foreach my $command (@exec) {
+            print "Executing \`$command\` ...\n";
+            $command =~ s/~/$ENV{HOME}/;
+            system ($command);
+        }
+    }
+
+    my @vimplugins = menuVimPlugins($vimPlugins);
+    if ($vimplugins[0] eq "cancel") {
+        return;
+    }
+
+    foreach my $choice (@vimplugins) {
+        chomp(my $execommand = $vimPlugins->{plugins}->{$choice});
+        my @exec = split (/; /, $execommand);
+        print "\n";
+
+        my $currentDir = `pwd`;
+        chomp($currentDir);
+        chdir("$ENV{HOME}/.vim/bundle");
+        foreach my $command (@exec) {
+            print "Executing \`$command\` ...\n";
+            $command =~ s/~/$ENV{HOME}/;
+            system ($command);
+        }
+        chdir("$currentDir");
+    }
+
+} # vimPlugin
+
+
+sub menuVimPlugins {
+    my $vimPlugins = $_[0];
+
+    print "\n";
+    print "The following list presents vim plugins that you can install\n";
+    print "You can choose several plugins by separating them with a space\n";
+
+    for (keys %{$vimPlugins->{plugins}}) {
+        print "\t - $_\n";
+    }
+
+    my @plugins = ();
+
+    print "\nChoice (cancel to cancel): ";
+    my $in = "";
+    chomp ($in = <STDIN>);
+
+    if ($in eq "cancel") {
+        push (@plugins, "cancel");
+        return @plugins;
+    }
+
+    my @listPlugins = split (/ /, $in);
+
+    foreach my $pack (@listPlugins) {
+        if (! exists $vimPlugins->{plugins}->{$pack}) {
+            print "Unknown $pack. Ignoring.\n";
+        } else {
+            push (@plugins, $pack);
+        }
+    }
+
+    return @plugins;
+
+} # menuVimPlugins
 
 
 sub main {
-    my $config = readConfigFile();
+    my $packageList = readPackageList();
     my @pm = getPackageManager();
 
     print " .__                 __                 __   \n";
@@ -307,15 +394,17 @@ sub main {
     while (1) {
         print "\n";
         print "Option available:\n";
-        print "\t1 - Update && Upgrade\n\t2 - Install package\n\t3 - Shell ";
-        print "\n\t4 - Quit\n\n";
+        print "\t1 - Update && Upgrade\n\t2 - Install package\n";
+        print "\t3 - Shell\n\t4 - Vim plugins";
+        print "\n\t5 - Quit\n\n";
 
         print "Choice: ";
 
         my $choice = <STDIN>;
         chomp ($choice);
         while ($choice ne "1" && $choice ne "2" &&
-                $choice ne "3" && $choice ne "4") {
+                $choice ne "3" && $choice ne "4" &&
+                $choice ne "5") {
             print "Option not available...\nChoose an existing option: ";
             chomp ($choice = <STDIN>);
         }
@@ -324,10 +413,13 @@ sub main {
             update (@pm);
         }
         elsif ("2" eq $choice) {
-            installPackage($config, @pm);
+            installPackage($packageList, @pm);
         }
         elsif ("3" eq $choice) {
             configShell(@pm);
+        }
+        elsif ("4" eq $choice) {
+            vimPlugin();
         }
         else {
             print "Thank you for using instart!\n\n";

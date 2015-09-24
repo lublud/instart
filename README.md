@@ -18,6 +18,7 @@ program:
     - Update && upgrade packages/system
     - Install new package
     - Install and/or get config file for shell
+    - Install plugins for vim
 
 If one chooses to install new packages, the list of available package
 (`list_package.yml`) is shown. From that list, one needs to write the name
@@ -77,3 +78,12 @@ install them or just copy the configuration files.
 
     - bash
     - zsh + oh-my-zsh
+
+## Available vim plugins
+The following is the list of available plugins for vim. This list can
+(and will) grow by adding packages in `vim_plugins.yml`:
+
+    - ctrlp
+    - NerdTree
+    - ultisnips
+    - vim-snippets
