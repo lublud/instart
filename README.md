@@ -62,6 +62,7 @@ grow by adding packages in `list_package.yml`:
     - make
     - mplayer
     - ranger
+    - rawtherapee
     - scrot
     - stellarium
     - terminator

@@ -159,6 +159,10 @@ package:
         execute: >
             ranger --copy-config=all
 
+    rawtherapee:
+        nbConfigFile: 0
+        requires: none
+
     scrot:
         nbConfigFile: 0
         requires: none
