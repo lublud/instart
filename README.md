@@ -34,7 +34,8 @@ In addition, the user executing the script has to be a sudoers in order
 to install the different packages.
 
 ## Available package manager
-Only two package manager can be used as of today:
+Only two package manager can be used as of today. This list can grow by adding
+package manager in `package_manager.yml`:
 
     - apt-get
     - pacman

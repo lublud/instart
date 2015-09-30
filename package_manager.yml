@@ -1,0 +1,16 @@
+##
+#
+# file: package_manager.yml
+#
+# author: lublud
+#
+# date: 30/09/2015
+#
+# brief: list of available package manager
+#
+##
+
+---
+apt-get: [install, update, upgrade]
+
+pacman: [-S, -Syu]

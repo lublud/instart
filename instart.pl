@@ -24,6 +24,8 @@ sub getPackageManager {
     if ($^O eq "linux") {
         my @pm = ();
 
+        my $packageManager = readPackageManager();
+
         do{
             if (-x qx(find /usr/bin -name  $_ | tr -d "\n")) {
                 push (@pm, $_);
@@ -36,17 +38,13 @@ sub getPackageManager {
             exit;
         }
 
-        if ($pm[0] eq "apt-get") {
-            push (@pm, "install");
-            push (@pm, "update");
-            push (@pm, "upgrade");
-        }
-        elsif ($pm[0] eq "pacman") {
-            push (@pm, "-S");
-            push (@pm, "-Syu");
-        }
+        push (@pm, @{$packageManager->{$pm[0]}});
 
         return @pm;
+    }
+    else {
+        print "System not supported!\nExit program...\n";
+        exit;
     }
 } # getPackageManager
 
@@ -87,6 +85,13 @@ sub readVimPlugins {
     return $vimPlugins;
 
 } # readVimPlugins 
+
+sub readPackageManager {
+    my $packageManager = LoadFile ('package_manager.yml');
+
+    return $packageManager;
+
+} # readPackageManager
 
 sub update {
     my @pm = @_;
