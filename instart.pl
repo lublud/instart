@@ -73,24 +73,15 @@ sub distribSpecific {
 
 
 sub readPackageList {
-    my $packageList = LoadFile ('list_package.yml');
-
-    return $packageList;
-
+    return LoadFile ('list_package.yml');
 } # readPackageList
 
 sub readVimPlugins {
-    my $vimPlugins = LoadFile ('vim_plugins.yml');
-
-    return $vimPlugins;
-
+    return LoadFile ('vim_plugins.yml');
 } # readVimPlugins 
 
 sub readPackageManager {
-    my $packageManager = LoadFile ('package_manager.yml');
-
-    return $packageManager;
-
+    return LoadFile ('package_manager.yml');
 } # readPackageManager
 
 sub update {
