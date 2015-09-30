@@ -48,6 +48,7 @@ sub getPackageManager {
     }
 } # getPackageManager
 
+
 sub distribSpecific {
     my $packageList = $_[0];
     my $package = $_[1];
@@ -76,13 +77,16 @@ sub readPackageList {
     return LoadFile ('list_package.yml');
 } # readPackageList
 
+
 sub readVimPlugins {
     return LoadFile ('vim_plugins.yml');
 } # readVimPlugins 
 
+
 sub readPackageManager {
     return LoadFile ('package_manager.yml');
 } # readPackageManager
+
 
 sub update {
     my @pm = @_;
@@ -103,7 +107,9 @@ sub execute {
     my $package = $_[1];
     my @pm = splice (@_, 2, $#_);
         
-    distribSpecific ($packageList, $package);
+    if (exists ($packageList->{package}->{distrib})) {
+        distribSpecific ($packageList, $package);
+    }
 
     print "\nAbout to execute \`sudo $pm[0] $pm[1] $package\` ...\n";
     sleep (1);
@@ -269,22 +275,26 @@ sub menuPackage {
 
     my @listpackage = ();
 
-    print "\nChoice (cancel to cancel): ";
-    my $in = "";
-    chomp ($in = <STDIN>);
+    my $tmp = 0;
+    while ($tmp == 0) {
+        print "\nChoice (cancel to cancel): ";
+        my $in = "";
+        chomp ($in = <STDIN>);
 
-    if ($in eq "cancel") {
-        push (@listpackage, "cancel");
-        return @listpackage;
-    }
+        if ($in eq "cancel") {
+            push (@listpackage, "cancel");
+            return @listpackage;
+        }
 
-    my @packages = split (/ /, $in);
+        my @packages = split (/ /, $in);
 
-    foreach my $pack (@packages) {
-        if (! exists $packageList->{package}->{$pack}) {
-            print "Unknown $pack. Ignoring.\n";
-        } else {
-            push (@listpackage, $pack);
+        foreach my $pack (@packages) {
+            if (! exists $packageList->{package}->{$pack}) {
+                print "Unknown $pack. Ignoring...\n";
+            } else {
+                push (@listpackage, $pack);
+                $tmp = $tmp + 1;
+            }
         }
     }
 
