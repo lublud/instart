@@ -26,12 +26,12 @@ sub getPackageManager {
 
         my $packageManager = readPackageManager();
 
-        do{
+        for (keys %{$packageManager}) {
             if (-x qx(find /usr/bin -name  $_ | tr -d "\n")) {
                 push (@pm, $_);
                 last;
             }
-        } for qw/apt-get pacman/;
+        }
 
         if (-1 == $#pm) {
             print "System not supported!\nExit program...\n";
