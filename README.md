@@ -70,6 +70,7 @@ grow by adding packages in `list_package.yml`:
     - terminator
     - tmux
     - vim
+    - wget
     - xorg
     - zathura
 

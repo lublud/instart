@@ -107,7 +107,7 @@ sub execute {
     my $package = $_[1];
     my @pm = splice (@_, 2, $#_);
         
-    if (exists ($packageList->{package}->{distrib})) {
+    if (exists $packageList->{package}->{$package}->{distrib}) {
         distribSpecific ($packageList, $package);
     }
 

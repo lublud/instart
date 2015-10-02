@@ -186,6 +186,10 @@ package:
         configFile1: ./vim/vimrc.bepo
         defaultPath1: ~/.vimrc.bepo
 
+    wget:
+        nbConfigFile: 0
+        requires: none
+
     xorg:
         nbConfigFile: 1
         configFile0: ./xinit/xinitrc
