@@ -28,5 +28,8 @@ plugins:
     ultisnips: >
         git clone https://github.com/SirVer/ultisnips
 
+    vim-airline: >
+        git clone https://github.com/bling/vim-airline  
+
     vim-snippets: >
         git clone https://github.com/honza/vim-snippets

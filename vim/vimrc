@@ -100,7 +100,7 @@ nnoremap <Up> :echoe "Use k you NOOB!"<CR>
 nnoremap <Down> :echoe "Use j you NOOB!"<CR>
 
 " Stop current highlighting
-nnoremap <C-h> :noh<cr>
+nnoremap <C-c> :noh<cr>
 
 
 " Convenient command to see the difference between the current buffer and the
