@@ -62,6 +62,10 @@ package:
         nbConfigFile: 0
         requires: none
 
+    dmenu:
+        nbConfigFile: 0
+        requires: none
+
     dunst:
         nbConfigFile: 1
         configFile0: ./dunst/dunstrc
@@ -114,6 +118,11 @@ package:
         configFile3: ./i3/bright_down.sh
         defaultPath3: ~/.i3/bright_down.sh
         requires: xorg
+        distrib:
+            nbDistrib: 1
+            name0: Arch
+            command-Arch: >
+                sudo pacman -S pm-utils
         execute: >
             chmod +x ~/.i3/bright_down.sh;
             chmod +x ~/.i3/bright_up.sh
@@ -150,6 +159,10 @@ package:
         requires: none
 
     mplayer:
+        nbConfigFile: 0
+        requires: none
+
+    mpv:
         nbConfigFile: 0
         requires: none
 

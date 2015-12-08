@@ -50,6 +50,7 @@ grow by adding packages in `list_package.yml`:
     - cmus
     - curl
     - ddd
+    - dmenu
     - dunst
     - feh
     - firefox
@@ -63,6 +64,7 @@ grow by adding packages in `list_package.yml`:
     - lynx
     - make
     - mplayer
+    - mpv
     - ranger
     - rawtherapee
     - scrot
