@@ -95,6 +95,10 @@ package:
         nbConfigFile: 0
         requires: none
 
+    gimp:
+        nbConfigFile: 0
+        requires: none
+
     git:
         nbConfigFile: 0
         requires: none
@@ -148,7 +152,7 @@ package:
                 sudo apt-get install texlive-latex-extra;
             name1: Arch
             command-Arch: >
-                sudo pacman -S texlive-core; 
+                sudo pacman -S texlive-core texlive-latexextra
 
     lynx:
         nbConfigFile: 0

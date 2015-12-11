@@ -56,6 +56,7 @@ grow by adding packages in `list_package.yml`:
     - firefox
     - gcc
     - gdb
+    - gimp
     - git
     - gpicview
     - htop
