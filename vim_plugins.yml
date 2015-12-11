@@ -19,6 +19,9 @@ plugins:
     ctrlp: >
         git clone https://github.com/kien/ctrlp.vim
 
+    fugitive: >
+        git clone https://github.com/tpope/vim-fugitive
+
     nerdtree: >
         git clone https://github.com/scrooloose/nerdtree
 
