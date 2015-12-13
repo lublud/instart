@@ -1,0 +1,17 @@
+##
+#
+# file: list_python.yml
+#
+# author: lublud
+#
+# date: 13/12/2015
+#
+# brief: list of packages that required pip to be installed
+#
+##
+
+---
+package:
+    - mps-youtube
+    - pip
+    - SpoofMAC

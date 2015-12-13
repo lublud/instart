@@ -87,6 +87,10 @@ sub readPackageManager {
     return LoadFile ('package_manager.yml');
 } # readPackageManager
 
+sub readListPython {
+    return LoadFile ('list_python.yml');
+} # readListPython
+
 
 sub update {
     my @pm = @_;
@@ -381,6 +385,59 @@ sub menuVimPlugins {
 
 } # menuVimPlugins
 
+sub pipInstall {
+    if (not -x qx(find /usr/bin -name pip | tr -d "\n")) {
+        if (not -x qx(find /usr/bin -name wget | tr -d "\n")) {
+            print "`wget` is required to download `pip`. Please install `wget`...\n";
+            sleep 1;
+            return;
+        }
+        print "Downloading and installing pip...\n";
+        my $command = "wget https://bootstrap.pypa.io/get-pip.py";
+        system ($command);
+        system ("sudo python get-pip.py");
+        unlink ("get-pip.py");
+
+    }
+
+    my $listPython = readListPython();
+    my $command = "sudo pip install";
+
+    print "Do you want to do an update? (y/n) ";
+    my $in = "";
+    chomp ($in = <STDIN>);
+
+    if ($in eq "y") {
+        $command .= " -U";
+    }
+
+    # print menu
+    foreach my $tmp (@{$listPython->{package}}) {
+        print "\t - $tmp\n";
+    }
+
+    while (1) {
+        print "\nChoice (cancel to cancel): ";
+        chomp ($in = <STDIN>);
+
+        if ($in eq "cancel") {
+            return;
+        }
+
+        my @packages = split (/ /, $in);
+
+        foreach my $pack (@packages) {
+            if ($pack ~~ @{$listPython->{package}}) {
+                system ($command . " $pack");
+                print "\n";
+            } else {
+                print "Unknown $pack. Ignoring...\n";
+            }
+        }
+    }
+
+} # pipInstall
+
 
 sub main {
     my $packageList = readPackageList();
@@ -401,8 +458,8 @@ sub main {
         print "\n";
         print "Option available:\n";
         print "\t1 - Update && Upgrade\n\t2 - Install package\n";
-        print "\t3 - Shell\n\t4 - Vim plugins";
-        print "\n\t5 - Quit\n\n";
+        print "\t3 - Shell\n\t4 - Vim plugins\n\t5 - Python (pip)";
+        print "\n\t6 - Quit\n\n";
 
         print "Choice: ";
 
@@ -410,7 +467,7 @@ sub main {
         chomp ($choice);
         while ($choice ne "1" && $choice ne "2" &&
                 $choice ne "3" && $choice ne "4" &&
-                $choice ne "5") {
+                $choice ne "5" && $choice ne "6") {
             print "Option not available...\nChoose an existing option: ";
             chomp ($choice = <STDIN>);
         }
@@ -426,6 +483,9 @@ sub main {
         }
         elsif ("4" eq $choice) {
             vimPlugin();
+        }
+        elsif ("5" eq $choice) {
+            pipInstall();
         }
         else {
             print "Thank you for using instart!\n\n";
