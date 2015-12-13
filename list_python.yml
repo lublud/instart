@@ -12,6 +12,6 @@
 
 ---
 package:
-    - mps-youtube
+    - mps-youtube # https://github.com/mps-youtube/mps-youtube
     - pip
-    - SpoofMAC
+    - SpoofMAC # https://github.com/feross/SpoofMAC

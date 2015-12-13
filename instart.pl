@@ -246,6 +246,10 @@ sub configShell {
         system ("sudo $pm[0] $pm[1] zsh");
         system ("chsh -s /usr/bin/zsh");
 
+        if (not -x qx(find /usr/bin -name curl | tr -d "\n")) {
+            print "`curl` is required to download `oh-my-zsh`. Please install `curl`...\n";
+            return;
+        }
         print "Downloading and installing oh-my-zsh...\n";
         system ("sh -c \"\$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)\"")
     }
