@@ -95,3 +95,11 @@ The following is the list of available plugins for vim. This list can
     - ultisnips
     - vim-airline
     - vim-snippets
+
+## Avaiable pip packages
+The following is the list of available packages to be installed with pip.
+This list can (and will) grow by adding packages in `list-python.py`:
+
+    - mps-youtube
+    - pip
+    - SpoofMAC
