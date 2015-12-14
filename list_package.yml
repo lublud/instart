@@ -223,3 +223,8 @@ package:
     zathura:
         nbConfigFile: 0
         requires: none
+        distrib:
+            nbDistrib: 1
+            name0: Arch
+            command-Arch: >
+                sudo pacman -S zathura-pdf-poppler
