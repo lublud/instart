@@ -52,6 +52,33 @@ nnoremap <C-l> <C-w>l
 " Switch between the last two files
 nnoremap <leader><leader> <c-^>
 
+" Quickly slect buffer
+nnoremap <leader>bb :buffers<CR>:buffer<Space>
+nnoremap <leader>bn :bn<CR>
+nnoremap <leader>bp :bp<CR>
+
+" Status Line {  
+    set laststatus=2                             " always show statusbar  
+    set statusline=  
+    set statusline+=%-10.3n\                     " buffer number  
+    set statusline+=%f\                          " filename   
+    set statusline+=%h%m%r%w                     " status flags  
+    set statusline+=\[%{strlen(&ft)?&ft:'none'}] " file type  
+    set statusline+=%=                           " right align remainder  
+    set statusline+=0x%-8B                       " character value  
+    set statusline+=%-14(%l,%c%V%)               " line, character  
+    set statusline+=%<%P                         " file position  
+" }
+                                                                                    "} 
+
+function SetStatusLineStyle()
+    if &stl == '' || &stl =~ 'synID'
+        let &stl="%f %y%([%R%M]%)%{'!'[&ff=='".&ff."']}%{'$'[!&list]}%{'~'[&pm=='']}%=#%n %l/%L,%c%V "
+    else
+        let &stl="%f %y%([%R%M]%)%{'!'[&ff=='".&ff."']}%{'$'[!&list]} (%{synIDattr(synID(line('.'),col('.'),0),'name')})%=#%n %l/%L,%c%V "
+    endif
+endfunction
+
 " Show line numbers
 highlight LineNr term=bold ctermfg=darkgray guifg=darkgray
 
@@ -100,7 +127,7 @@ nnoremap <Up> :echoe "Use k you NOOB!"<CR>
 nnoremap <Down> :echoe "Use j you NOOB!"<CR>
 
 " Stop current highlighting
-nnoremap <C-c> :noh<cr>
+nnoremap <leader>h :noh<cr>
 
 
 " Convenient command to see the difference between the current buffer and the
