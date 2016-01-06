@@ -17,7 +17,11 @@ set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:monospace 8
+# font pango:monospace 8
+font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso100646-1
+font pango:DejaVu Sans Mono 9
+font pango:DejaVu Sans Mono, Terminus Bold Semi-Condensed 10
+font pango:Terminus 12px
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
@@ -234,8 +238,10 @@ bindcode 233 exec --no-startup-id sudo ~/.i3/bright_up.sh
 
 # i
 bindcode $mod+31 exec firefox
+# e
+bindcode $mod+Mod1+26 exec eclipse
 # p
-bindcode $mod+Shift+33 exec eclipse
+bindcode $mod+Shift+33 exec Popcorn-Time
 # v
 bindcode $mod+55 exec virtualbox
 # y
@@ -254,14 +260,20 @@ bindcode Mod1+70 kill
 # l
 bindcode Ctrl+Mod1+46 exec i3lock -c 000000
 
+# alt + F1
+bindcode $mod+Mod1+67 exec echo 'mode1' > /tmp/clis-mode
+bindcode $mod+Mod1+68 exec echo 'mode2' > /tmp/clis-mode
+bindcode $mod+Mod1+69 exec echo 'mode3' > /tmp/clis-mode
+bindcode $mod+Mod1+70 exec echo 'mode4' > /tmp/clis-mode
+
 # Exec at startup
 #exec $term -title "WiFi" -e sudo wifi-menu
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-        status_command i3status
-        #status_command ~/.statusbar/mystatus.sh
+        #status_command i3status
+        status_command ~/.i3/clisi3.sh
         mode dock
         position top
 }
