@@ -173,6 +173,14 @@ package:
         nbConfigFile: 0
         requires: none
 
+    neovim:
+        nbConfigFile: 0
+        requires: vim # doesn't but easier for configuration (ln -S .vimrc .config/nvim/nvimrc)
+        execute: >
+            mkdir -p ~/.config;
+            ln -s ~/.vim ~/.config/nvim;
+            ln -s ~/.vimrc ~/.config/nvim/init.vim
+
     ranger:
         nbConfigFile: 0
         requires: none
