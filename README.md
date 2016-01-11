@@ -66,6 +66,7 @@ grow by adding packages in `list_package.yml`:
     - make
     - mplayer
     - mpv
+    - neovim
     - ranger
     - rawtherapee
     - scrot
