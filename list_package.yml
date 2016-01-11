@@ -176,6 +176,11 @@ package:
     neovim:
         nbConfigFile: 0
         requires: vim # doesn't but easier for configuration (ln -S .vimrc .config/nvim/nvimrc)
+        distrib:
+            nbDistrib: 1
+            name0: Arch
+            command-Arch: >
+                sudo pacman -S python2-neovim python-neovim
         execute: >
             mkdir -p ~/.config;
             ln -s ~/.vim ~/.config/nvim;
