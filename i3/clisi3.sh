@@ -95,7 +95,7 @@ do
         # next calcurse appointment and top todo item
         # must remove tabs and linebreaks
         INFOLINE=`calcurse --day 30 | tr '\n' ' ' | tr '\t' ' '`
-        INFOLINE="$INFOLINE  `cat ~/.calcurse/todo | head -n 1`"
+        INFOLINE="$INFOLINE  `cat ~/.calcurse/todo | head -n 2 | paste -sd -`"
         ;;
     notify)
         # notification text
