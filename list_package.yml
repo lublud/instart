@@ -209,7 +209,9 @@ package:
         requires: none
 
     tmux:
-        nbConfigFile: 0
+        nbConfigFile: 1
+        configFile0: ./tmux/tmux.conf
+        defaultPath0: ~/.tmux.conf
         requires: none
 
     vim:
