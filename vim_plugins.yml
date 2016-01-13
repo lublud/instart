@@ -28,6 +28,12 @@ plugins:
     nerdtree: >
         git clone https://github.com/scrooloose/nerdtree
 
+    signify: >
+        git clone https://github.com/mhinz/vim-signify
+
+    startify: >
+        git clone https://github.com/mhinz/vim-startify
+
     syntastic: >
         git clone https://github.com/scrooloose/syntastic
 
