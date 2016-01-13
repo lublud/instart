@@ -4,7 +4,7 @@
 #
 # file: instart.pl
 #
-# author: lublud
+# author: Ludovic Lubeigt
 #
 # date: 15/07/2015
 #
