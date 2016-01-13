@@ -22,6 +22,9 @@ plugins:
     fugitive: >
         git clone https://github.com/tpope/vim-fugitive
 
+    goyo: >
+        git clone https://github.com/junegunn/goyo.vim
+
     nerdtree: >
         git clone https://github.com/scrooloose/nerdtree
 
@@ -36,3 +39,6 @@ plugins:
 
     vim-snippets: >
         git clone https://github.com/honza/vim-snippets
+
+    vim-surround: >
+        git clone https://github.com/tpope/vim-surround
