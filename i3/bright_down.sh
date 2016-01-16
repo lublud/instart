@@ -4,7 +4,8 @@ max_brightness=$(cat /sys/class/backlight/intel_backlight/max_brightness)
 brightness=$(cat /sys/class/backlight/intel_backlight/brightness)
 
 if (($brightness > 0)); then
-    let brightness=$brightness-50
+    let brightness=$brightness-300
     echo "echo $brightness > /sys/class/backlight/intel_backlight/brightness" | sudo zsh #or bash
-    notify-send Brightness "${brightness}/${max_brightness}" -t 200
+    let "rate=${brightness}*100/${max_brightness}"
+    notify-send Brightness "${rate}" -t 200
 fi
