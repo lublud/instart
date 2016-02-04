@@ -47,7 +47,7 @@
 ################################################################################
 
 # help text lists the modes available
-HELPLINE="S-alt-F2 Now Playing; S-alt-F3 Top; S-alt-F4 Todo"
+HELPLINE="S-alt-F2 Top; S-alt-F4 Todo"
 
 # append to help text the WM shortcuts
 HELPLINE=""$HELPLINE
@@ -80,21 +80,20 @@ do
         # foo
         fi
     
+    # set music currently playing (if any)
+    INFOMUSIC="`basename \"$(cmus-remote -C status | head -n 2 | tail -n 1 | grep -oP '/(.+)*')\"`"
+
     # set the text to display based on what mode is set
     case "$ACTION" in
     mode2)
-        # now playing
-        INFOLINE="`basename \"$(cmus-remote -C status | head -n 2 | tail -n 1 | grep -oP '/(.+)*')\"`"
-        ;;
-    mode3)
         # top processes
         INFOLINE="`ps -eo '%C%% %c' | sort -k1 -n -r | head -2 | tr '\n' ' '`"
         ;;
-    mode4)
+    mode3)
         # next calcurse appointment and top todo item
         # must remove tabs and linebreaks
         INFOLINE=`calcurse --day 30 | tr '\n' ' ' | tr '\t' ' '`
-        INFOLINE="$INFOLINE  `cat ~/.calcurse/todo | head -n 2 | paste -sd -`"
+        INFOLINE="$INFOLINE `cat ~/.calcurse/todo | head -n 2 | paste -sd -`"
         ;;
     notify)
         # notification text
@@ -111,7 +110,8 @@ do
     INFOLINE="$INFOLINE"
 
     # emit the i3status text along with our custom string
-    dat="[{ \"full_text\": \"${INFOLINE}\" },"
+    tmp="{ \"full_text\":\"${INFOMUSIC}\" }," 
+    dat="[$tmp { \"full_text\": \"${INFOLINE}\" },"
     echo "${line/[/$dat}" || exit 1
    
 done)

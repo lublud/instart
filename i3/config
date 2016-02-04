@@ -217,11 +217,12 @@ bindcode $mod+Shift+107 exec scrot -e 'mv $f ~/Pictures && gimp ~/Pictures/$f'
 
 # volume
 # XF86AudioRaiseVolume
-bindcode 123 exec amixer -q set Master 3%+ unmute
+bindcode 123 exec amixer -c 1 -q set Master 3%+ unmute
 # XF86AudioLowerVolume
-bindcode 122 exec amixer -q set Master 3%- unmute
-# XF86AudioMute
-bindcode 121 exec amixer -q set Master mute
+bindcode 122 exec amixer -c 1 -q set Master 3%- unmute
+# XF86AudioMute Doesn't work properly when unmute
+bindcode 121 exec amixer -c 1 -q set Master mute
+
 # pause / play / next / previous
 # XF86AudioPlay
 bindcode 172 exec playerctl play-pause
@@ -260,11 +261,10 @@ bindcode Mod1+70 kill
 # l
 bindcode Ctrl+Mod1+46 exec i3lock -c 000000
 
-# alt + F1
+# alt + F{1,2,3}
 bindcode $mod+Mod1+67 exec echo 'mode1' > /tmp/clis-mode
 bindcode $mod+Mod1+68 exec echo 'mode2' > /tmp/clis-mode
 bindcode $mod+Mod1+69 exec echo 'mode3' > /tmp/clis-mode
-bindcode $mod+Mod1+70 exec echo 'mode4' > /tmp/clis-mode
 
 # Exec at startup
 #exec $term -title "WiFi" -e sudo wifi-menu
