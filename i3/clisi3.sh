@@ -60,7 +60,7 @@ do
     # get the mode and notification text
     if [ -e "/tmp/clis-mode" ]; then
         ACTION=`cat /tmp/clis-mode` 
-    else ACTION=mode3
+    else ACTION=mode4
     fi
     if [ -e "/tmp/clis-notify" ]; then
         NOTIFY=`cat /tmp/clis-notify`
@@ -84,8 +84,7 @@ do
     case "$ACTION" in
     mode2)
         # now playing
-        # TODO cmus
-        INFOLINE="`basename $(cmus-remote -C status | head -n 2 | tail -n 1 | grep -oP '/(.+)*')`"
+        INFOLINE="`basename \"$(cmus-remote -C status | head -n 2 | tail -n 1 | grep -oP '/(.+)*')\"`"
         ;;
     mode3)
         # top processes
