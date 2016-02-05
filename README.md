@@ -91,11 +91,16 @@ The following is the list of available plugins for vim. This list can
 
     - ctrlp
     - fugitive
+    - goyo
     - nerdtree
+    - signify
+    - startify
     - syntastic
     - ultisnips
+    - vimtex
     - vim-airline
     - vim-snippets
+    - vim-surround
 
 ## Avaiable pip packages
 The following is the list of available packages to be installed with pip.

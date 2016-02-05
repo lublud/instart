@@ -40,6 +40,9 @@ plugins:
     ultisnips: >
         git clone https://github.com/SirVer/ultisnips
 
+    vimtex: >
+        git clone https://github.com/lervag/vimtex
+
     vim-airline: >
         git clone https://github.com/vim-airline/vim-airline
 
