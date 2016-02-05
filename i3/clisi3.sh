@@ -60,7 +60,7 @@ do
     # get the mode and notification text
     if [ -e "/tmp/clis-mode" ]; then
         ACTION=`cat /tmp/clis-mode` 
-    else ACTION=mode4
+    else ACTION=mode3
     fi
     if [ -e "/tmp/clis-notify" ]; then
         NOTIFY=`cat /tmp/clis-notify`
