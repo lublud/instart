@@ -82,7 +82,7 @@ do
     
     # set music currently playing (if any) as well as position/duration
     INFOMUSIC="`basename \"$(cmus-remote -C status | head -n 2 | tail -n 1 | grep -oP '/(.+)*')\"`"
-    INFOMUSIC+="echo - $(cmus-remote -C status | head -n 4 | tail -n 1 | grep -oP '[0-9]+') / $(cmus-remote -C status | head -n 3 | tail -n 1 | grep -oP '[0-9]+')"
+    INFOMUSIC+=" - $(cmus-remote -C status | head -n 4 | tail -n 1 | grep -oP '[0-9]+') / $(cmus-remote -C status | head -n 3 | tail -n 1 | grep -oP '[0-9]+')"
 
     # set the text to display based on what mode is set
     case "$ACTION" in
