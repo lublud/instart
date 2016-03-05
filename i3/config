@@ -221,7 +221,8 @@ bindcode 123 exec amixer -c 1 -q set Master 3%+ unmute
 # XF86AudioLowerVolume
 bindcode 122 exec amixer -c 1 -q set Master 3%- unmute
 # XF86AudioMute Doesn't work properly when unmute
-bindcode 121 exec amixer -c 1 -q set Master mute
+# bindcode 121 exec amixer -c 1 -q set Master mute
+bindcode 121 exec amixer -c 1 -q set Master 0%
 
 # pause / play / next / previous
 # XF86AudioPlay
@@ -230,6 +231,14 @@ bindcode 172 exec playerctl play-pause
 bindcode 171 exec playerctl next
 # XF86AudioPrev
 bindcode 173 exec playerctl previous
+
+# control cmus
+# toggle pause (c)
+bindcode $mod+Mod1+54 exec cmus-remote -u
+# next
+bindcode $mod+Mod1+56 exec cmus-remote -n
+# previous
+bindcode $mod+Mod1+52 exec cmus-remote -r
 
 # brightness
 # XF86MonBrightnessDown
@@ -242,7 +251,7 @@ bindcode $mod+31 exec firefox
 # e
 bindcode $mod+Mod1+26 exec eclipse
 # p
-bindcode $mod+Shift+33 exec Popcorn-Time
+bindcode $mod+Shift+33 exec ". ~/.Popcorn-Time/downdate_popcorn.sh && Popcorn-Time"
 # v
 bindcode $mod+55 exec virtualbox
 # y
