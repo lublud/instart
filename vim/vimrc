@@ -10,6 +10,9 @@ endif
 " Leader - ( Spacebar )
 let mapleader = " "
 
+" Reload vimrc
+map <leader>s :source ~/.vimrc<CR>
+
 " Global settings
 set nocompatible
 set hlsearch
@@ -56,6 +59,7 @@ nnoremap <leader><leader> <c-^>
 nnoremap <leader>bb :buffers<CR>:buffer<Space>
 nnoremap <leader>bn :bn<CR>
 nnoremap <leader>bp :bp<CR>
+nnoremap <leader>bd :bdelete<CR>
 
 " Show line numbers
 highlight LineNr term=bold ctermfg=darkgray guifg=darkgray
@@ -83,7 +87,8 @@ nnoremap <leader>r :call ToggleNumberOn()<cr>
 
 " Special configuration for development
 filetype on
-autocmd FileType .c,.cpp,.cxx,.h set cindent|set cin|set softtabstop=4
+autocmd FileType .c,.cpp,.cxx,.h set cindent|set cin|set softtabstop=4|
+"set colorcolumn=78
 set smartindent
 
 " Does not expand type for makefiles
@@ -118,7 +123,7 @@ endif
 
 " Plugins specific
 " NERDTree
-map <C-n> :NERDTreeToggle<cr>
+nnoremap <C-n> :NERDTreeToggle<cr>
 
 
 " ========================== nvim ============================= "
