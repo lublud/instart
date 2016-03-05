@@ -235,10 +235,16 @@ bindcode 173 exec playerctl previous
 # control cmus
 # toggle pause (c)
 bindcode $mod+Mod1+54 exec cmus-remote -u
-# next
+# next (b)
 bindcode $mod+Mod1+56 exec cmus-remote -n
-# previous
+# previous (w)
 bindcode $mod+Mod1+52 exec cmus-remote -r
+# seek +5
+bindcode $mod+Mod1+46 exec cmus-remote -k +5
+# seek -5
+bindcode $mod+Mod1+43 exec cmus-remote -k -5
+# toggle shuffle (s)
+bindcode $mod+Mod1+39 exec cmus-remote -S
 
 # brightness
 # XF86MonBrightnessDown
