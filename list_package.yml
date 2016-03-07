@@ -62,6 +62,10 @@ package:
         nbConfigFile: 0
         requires: none
 
+    dia:
+        nbConfigFile: 0
+        requires: none
+
     dmenu:
         nbConfigFile: 0
         requires: none

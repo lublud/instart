@@ -50,6 +50,7 @@ grow by adding packages in `list_package.yml`:
     - cmus
     - curl
     - ddd
+    - dia
     - dmenu
     - dunst
     - feh

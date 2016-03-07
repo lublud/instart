@@ -270,6 +270,8 @@ bindcode $mod+33 exec rawtherapee
 bindcode $mod+32 exec stellarium
 # t
 bindcode $mod+28 exec thunderbird
+# d
+bindcode $mod+Shift+40 exec dia
 
 # F4
 bindcode Mod1+70 kill
