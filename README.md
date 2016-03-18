@@ -74,6 +74,7 @@ grow by adding packages in `list_package.yml`:
     - stellarium
     - terminator
     - tmux
+    - valgrind
     - vim
     - wget
     - xorg

@@ -218,6 +218,10 @@ package:
         defaultPath0: ~/.tmux.conf
         requires: none
 
+    valgrind:
+        nbConfigFile: 0
+        requires: none
+
     vim:
         nbConfigFile: 2
         configFile0: ./vim/vimrc
