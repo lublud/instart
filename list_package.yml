@@ -15,13 +15,13 @@
 
 # structure:
 # package:
-#     package_name:
-#         nbConfigFile: 1
+#     package_name:                                      # 3
+#         nbConfigFile: 1                                # 4
 #         configFile0: ./path/to/config/file
 #         defaultPath0: ~/path/to/config/file
-#         addLine0: a line, another line
-#         requires: package dependencies
-#         distrib:
+#         addLine0: a line, another line                 # 5
+#         requires: package dependencies                 # 1
+#         distrib:                                       # 2
 #             nbDistrib: 2
 #             name0: Arch
 #             command-Arch: >
@@ -29,10 +29,10 @@
 #             name1: Debian
 #             command-Debian: >
 #                command 0; command 1;
-#         execute: >
+#         execute: >                                     # 6
 #             command 0; command 1;
 #             command 2
-#         warning: >
+#         warning: >                                     # 7
 #             Any warning message relative to the newly
 #             installed package_name
 
@@ -144,6 +144,9 @@ package:
             and
             `<username> <hostname> = NOPASSWD: /path/to/bright_down.sh`
 
+    irssi:
+        nbConfigFile: 0
+        requires: none
 
     kile:
         nbConfigFile: 0

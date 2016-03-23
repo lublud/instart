@@ -62,6 +62,7 @@ grow by adding packages in `list_package.yml`:
     - gpicview
     - htop
     - i3
+    - irssi
     - kile (+ texlive)
     - lynx
     - make
