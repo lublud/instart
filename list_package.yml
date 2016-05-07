@@ -116,17 +116,13 @@ package:
         requires: none
 
     i3:
-        nbConfigFile: 5
+        nbConfigFile: 3
         configFile0: ./i3/config
         defaultPath0: ~/.i3/config
         configFile1: ./i3/i3status.conf
         defaultPath1: ~/.i3status.conf
-        configFile2: ./i3/bright_up.sh
-        defaultPath2: ~/.i3/bright_up.sh
-        configFile3: ./i3/bright_down.sh
-        defaultPath3: ~/.i3/bright_down.sh
-        configFile4: ./i3/clisi3.sh
-        defaultPath4: ~/.i3/clisi3.sh
+        configFile2: ./i3/scripts/ # contain various scripts
+        defaultPath2: ~/.i3/
         requires: xorg
         distrib:
             nbDistrib: 1
@@ -134,9 +130,9 @@ package:
             command-Arch: >
                 sudo pacman -S pm-utils
         execute: >
-            chmod +x ~/.i3/bright_down.sh;
-            chmod +x ~/.i3/bright_up.sh;
-            chmod +x ~/.i3/clisi3.sh
+            chmod +x ~/.i3/scripts/bright_down.sh;
+            chmod +x ~/.i3/scripts/bright_up.sh;
+            chmod +x ~/.i3/scripts/clisi3.sh
         warning: >
             In order to use the scripts to control the brightness,
             run `sudo visudo`. In the file, add the following lines:
@@ -192,6 +188,10 @@ package:
             mkdir -p ~/.config;
             ln -s ~/.vim ~/.config/nvim;
             ln -s ~/.vimrc ~/.config/nvim/init.vim
+
+    pavucontrol:
+        nbConfigFile: 0
+        requires: none
 
     ranger:
         nbConfigFile: 0

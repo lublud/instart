@@ -149,7 +149,7 @@ sub execute {
             }
 
             print "Copy \`$packageListFile\` to \`$defaultPath\`...\n";
-            copy ($packageListFile, $defaultPath) or die "Copy failed: $!\n";
+            system ("cp -r $packageListFile $defaultPath") or die "Copy failed: $!\n";
 
 # Append to file possible new lines
             my $add = "addLine" . $i;

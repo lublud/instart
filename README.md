@@ -69,6 +69,7 @@ grow by adding packages in `list_package.yml`:
     - mplayer
     - mpv
     - neovim
+    - pavucontrol
     - ranger
     - rawtherapee
     - scrot

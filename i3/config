@@ -248,9 +248,9 @@ bindcode $mod+Mod1+39 exec cmus-remote -S
 
 # brightness
 # XF86MonBrightnessDown
-bindcode 232 exec --no-startup-id sudo ~/.i3/bright_down.sh
+bindcode $mod+Mod1+40 exec --no-startup-id sudo ~/.i3/scripts/bright_down.sh
 # XF86MonBrightnessUp
-bindcode 233 exec --no-startup-id sudo ~/.i3/bright_up.sh
+bindcode $mod+Mod1+30 exec --no-startup-id sudo ~/.i3/scripts/bright_up.sh
 
 # i
 bindcode $mod+31 exec firefox
@@ -272,6 +272,11 @@ bindcode $mod+32 exec stellarium
 bindcode $mod+28 exec thunderbird
 # d
 bindcode $mod+Shift+40 exec dia
+# t
+bindcode $mod+Mod1+28 exec notify-send "$(date)"
+# s
+bindcode $mod+Shift+39 exec pavucontrol
+
 
 # F4
 bindcode Mod1+70 kill
@@ -290,7 +295,7 @@ bindcode $mod+Mod1+69 exec echo 'mode3' > /tmp/clis-mode
 # finds out, if available)
 bar {
         #status_command i3status
-        status_command ~/.i3/clisi3.sh
+        status_command ~/.i3/scripts/clisi3.sh
         mode dock
         position top
 }
