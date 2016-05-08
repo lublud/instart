@@ -88,7 +88,9 @@ package:
             name0: Debian
             command-Debian: >
                 sudo apt-get remove iceweasel;
-                echo "\ndeb http://packages.linuxmint.com debian import" | sudo tee -a /etc/apt/sources.list;
+                if [[ ! $(cat /etc/apt/sources.list | grep "http://packages.linuxmint.com debian import") ]]; then
+                    echo "\ndeb http://packages.linuxmint.com debian import" | sudo tee -a /etc/apt/sources.list;
+                fi
                 sudo apt-get update    
 
     gcc:
