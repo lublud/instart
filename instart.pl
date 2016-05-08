@@ -17,6 +17,7 @@ use warnings;
 
 use YAML::XS qw(LoadFile);
 use File::Copy;
+use File::Which;
 
 main();
 
@@ -278,7 +279,12 @@ sub menuPackage {
     print "You can choose several packages by separating them with a space\n";
 
     for (keys %{$packageList->{package}}) {
-        print "\t - $_\n";
+        print "\t - $_";
+
+        if (which($_)) {
+            print " (already installed)";
+        }
+        print "\n";
     }
 
     my @listpackage = ();
