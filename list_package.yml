@@ -87,11 +87,11 @@ package:
             nbDistrib: 1
             name0: Debian
             command-Debian: >
-                sudo apt-get remove iceweasel;
+                sudo apt-get remove iceweasel;;
                 if [[ ! $(cat /etc/apt/sources.list | grep "http://packages.linuxmint.com debian import") ]]; then
-                    echo "\ndeb http://packages.linuxmint.com debian import" | sudo tee -a /etc/apt/sources.list;
-                fi
-                sudo apt-get update    
+                    echo "\ndeb http://packages.linuxmint.com debian import" | sudo tee -a /etc/apt/sources.list
+                fi;;
+                sudo apt-get update
 
     gcc:
         nbConfigFile: 0
@@ -153,11 +153,11 @@ package:
             nbDistrib: 2
             name0: Debian
             command-Debian: >
-                sudo apt-get install texlive-base;
-                sudo apt-get install texlive-latex-base;
-                sudo apt-get install texlive-lang-french;
-                echo "\ntexlive-latex-extra is much bigger and not necessarily useful: it adds a lot of packages including beamer, cv, etc.\n";
-                sudo apt-get install texlive-latex-extra;
+                sudo apt-get install texlive-base;;
+                sudo apt-get install texlive-latex-base;;
+                sudo apt-get install texlive-lang-french;;
+                echo "\ntexlive-latex-extra is much bigger and not necessarily useful: it adds a lot of packages including beamer, cv, etc.\n";;
+                sudo apt-get install texlive-latex-extra
             name1: Arch
             command-Arch: >
                 sudo pacman -S texlive-core texlive-latexextra
@@ -182,10 +182,16 @@ package:
         nbConfigFile: 0
         requires: vim # doesn't but easier for configuration (ln -S .vimrc .config/nvim/nvimrc)
         distrib:
-            nbDistrib: 1
+            nbDistrib: 2
             name0: Arch
             command-Arch: >
                 sudo pacman -S python2-neovim python-neovim
+            name1: Ubuntu
+            command-Ubuntu: >
+                sudo apt-get install software-properties-common;;
+                sudo apt-get install python-software-properties;;
+                sudo add-apt-repository ppa:neovim-ppa/unstable;;
+                sudo apt-get update
         execute: >
             mkdir -p ~/.config;
             ln -s ~/.vim ~/.config/nvim;
@@ -246,7 +252,7 @@ package:
             nbDistrib: 1
             name0: Arch
             command-Arch: >
-                sudo pacman -S xorg-xinit; 
+                sudo pacman -S xorg-xinit
         warning: >
             You might need to modify /etc/X11/Xwrapper.config
             to start a new X session

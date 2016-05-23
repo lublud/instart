@@ -9,6 +9,10 @@ sysmodmap=/etc/X11/xinit/.Xmodmap
 
 setxkbmap fr
 
+# Deactivate screensaver
+xset s off
+xset -dpms
+
 if [ -f $sysresources ]; then
     xrdb -merge $sysresources
 fi

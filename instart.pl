@@ -63,7 +63,7 @@ sub distribSpecific {
 
         if (index (qx (cat /etc/*-release), $distrib) != -1) {
             chomp(my $execommand = $packageList->{package}->{$package}->{distrib}->{$commandDist});
-            my @exec = split (/; /, $execommand);
+            my @exec = split (/;; /, $execommand);
 
             foreach my $command (@exec) {
                 system ($command);
