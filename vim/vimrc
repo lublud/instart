@@ -61,29 +61,35 @@ nnoremap <leader>bn :bn<CR>
 nnoremap <leader>bp :bp<CR>
 nnoremap <leader>bd :bdelete<CR>
 
+" Search and replace
+" After completing a search, hit `cs` to replace the first match
+" n.n.n.n. will replace the 4 next matches
+vnoremap <silent> s //e<C-r>=&selection=='exclusive'?'+1':''<CR><CR>
+    \:<C-u>call histdel('search',-1)<Bar>let @/=histget('search',-1)<CR>gv
+omap s :normal vs<CR>
+
+" Save
+nnoremap <leader>w :w<CR>
+
+" Don't open a new panel on misstroke
+map q: :q
+
 " Show line numbers
 highlight LineNr term=bold ctermfg=darkgray guifg=darkgray
 
 " Toggle relative numbering, set to absolute on loss of focus or insert mode
 set nu!
 set rnu
-function! ToggleNumberOn()
-    set nu!
-    set rnu
-endfunction
 function! ToggleRelativeOn()
     set rnu!
     set nu
 endfunction
 
-autocmd FocusLost * call ToggleRelativeOn()
-autocmd FocusGained * call ToggleNumberOn()
 autocmd InsertEnter * call ToggleRelativeOn()
-autocmd InsertLeave * call ToggleNumberOn()
+autocmd InsertLeave * call ToggleRelativeOn()
 
 " Switch relative <-> absolute numbering
 nnoremap <leader>t :call ToggleRelativeOn()<cr>
-nnoremap <leader>r :call ToggleNumberOn()<cr>
 
 " Special configuration for development
 filetype on
@@ -112,6 +118,17 @@ nnoremap <Down> :echoe "Use j you NOOB!"<CR>
 " Stop current highlighting
 nnoremap <leader>h :noh<cr>
 
+function! s:nice_next(cmd)
+  let view = winsaveview()
+  execute "normal! " . a:cmd
+  if view.topline != winsaveview().topline
+    normal! zz
+  endif
+endfunction
+
+nnoremap <silent> n :call <SID>nice_next('n')<cr>
+nnoremap <silent> N :call <SID>nice_next('N')<cr>
+
 
 " Convenient command to see the difference between the current buffer and the
 " file it was loaded from, thus the changes you made.
@@ -122,8 +139,17 @@ if !exists(":DiffOrig")
 endif
 
 " Plugins specific
+filetype plugin on
+
 " NERDTree
-nnoremap <C-n> :NERDTreeToggle<cr>
+nnoremap <leader>n :NERDTreeToggle<cr>
+
+" CtrlP
+nnoremap <leader>o :CtrlP<CR>
+
+" vim-expand-region
+vmap v <Plug>(expand_region_expand)
+vmap <C_V> <Plug>(expand_region_shrink)
 
 
 " ========================== nvim ============================= "

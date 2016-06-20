@@ -15,6 +15,7 @@ package:
     - facebook-sdk # https://github.com/mobolic/facebook-sdk
     - mps-youtube # https://github.com/mps-youtube/mps-youtube
     - pip
+    - pymongo # http://api.mongodb.com/python/current/
     - PyYAML # http://pyyaml.org/
     - SpoofMAC # https://github.com/feross/SpoofMAC
     - twython # https://github.com/ryanmcgrath/twython
