@@ -16,11 +16,17 @@ pathogen: >
     curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
 
 plugins:
+    ale: >
+        git clone https://github.com/w0rp/ale
+
     ctrlp: >
         git clone https://github.com/kien/ctrlp.vim
 
     csv.vim: >
         git clone https://github.com/chrisbra/csv.vim
+
+    django-plus: >
+        git clone https://github.com/tweekmonster/django-plus.vim
 
     fugitive: >
         git clone https://github.com/tpope/vim-fugitive
@@ -54,6 +60,9 @@ plugins:
 
     vim-llvmcov: >
         git clone https://github.com/alepez/vim-llvmcov
+
+    vim-side-search: >
+        git clone https://github.com/ddrscott/vim-side-search
 
     vim-snippets: >
         git clone https://github.com/honza/vim-snippets

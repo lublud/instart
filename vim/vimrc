@@ -10,6 +10,9 @@ endif
 " Leader - ( Spacebar )
 let mapleader = " "
 
+" Esc - Ctrl + L
+imap <C-L> <Esc>
+
 " Reload vimrc
 map <leader>s :source ~/.vimrc<CR>
 
@@ -25,7 +28,12 @@ set shiftwidth=4
 set expandtab
 set tabstop=4
 
+set smartcase
+
 syntax on
+
+" Search and replace live - wait for nvim 0.2
+"set inccommand=split
 
 " Start scrolling when we are 3 lines away from margins
 set scrolloff=3
@@ -39,6 +47,11 @@ set winwidth=84
 set winheight=5
 set winminheight=5
 set winheight=999
+
+" Split horizontally & vertically
+nnoremap <leader>sv :vs<CR>
+nnoremap <leader>sh :sp<CR>
+
 
 " Resize panes
 nnoremap <silent> <C-Right> :vertical resize +5<cr>
@@ -118,6 +131,9 @@ nnoremap <Down> :echoe "Use j you NOOB!"<CR>
 " Stop current highlighting
 nnoremap <leader>h :noh<cr>
 
+" Clear white at the end of lines
+nnoremap <leader>c :%s/\s\+$//<CR>
+
 function! s:nice_next(cmd)
   let view = winsaveview()
   execute "normal! " . a:cmd
@@ -138,18 +154,65 @@ if !exists(":DiffOrig")
               \ | wincmd p | diffthis
 endif
 
+
+
 " Plugins specific
 filetype plugin on
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+let g:UltiSnipsEditSplit="vertical"
+
 
 " NERDTree
 nnoremap <leader>n :NERDTreeToggle<cr>
 
+
 " CtrlP
 nnoremap <leader>o :CtrlP<CR>
+
 
 " vim-expand-region
 vmap v <Plug>(expand_region_expand)
 vmap <C_V> <Plug>(expand_region_shrink)
+
+if has ("cscope")
+    set csprg=/usr/bin/cscope
+    set csto=0
+    set cst
+    set nocsverb
+    " add any DB in current directory
+    if filereadable("cscope.out")
+        cs add cscope.out
+    " else add DB pointed to by environement
+    elseif $CSCOPE_DB != ""
+        cs add $CSCOPE_DB
+    endif
+    set csverb
+endif
+
+map <C-_> :cstag <C-R>=expand("<cword>")<CR><CR>
+map g<C-]> :cs find 3 <C-R>=expand("<cword>")<CR><CR>
+
+
+" vim-side-search
+" How should we execute the search?
+" --heading and --stats are required!
+let g:side_search_prg = 'ag --word-regexp'
+  \. " --ignore='*.js.map'"
+  \. " --heading --stats -B 1 -A 4"
+
+" Can use `vnew` or `new`
+let g:side_search_splitter = 'vnew'
+
+" 40% splits
+let g:side_search_split_pct = 0.4
+
+" SideSearch current word and return to original window
+nnoremap <Leader>ss :SideSearch <C-r><C-w><CR> | wincmd p
+
+" Create an shorter `SS` command
+command! -complete=file -nargs=+ SS execute 'SideSearch <args>'
 
 
 " ========================== nvim ============================= "
