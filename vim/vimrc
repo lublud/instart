@@ -48,10 +48,12 @@ set winheight=5
 set winminheight=5
 set winheight=999
 
+" Wrap all lines of current paragraph at 80 characters
+nnoremap Q gqip
+
 " Split horizontally & vertically
 nnoremap <leader>sv :vs<CR>
 nnoremap <leader>sh :sp<CR>
-
 
 " Resize panes
 nnoremap <silent> <C-Right> :vertical resize +5<cr>
